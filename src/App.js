@@ -4,7 +4,7 @@ import { FiSettings } from "react-icons/fi";
 import { TooltipComponent } from "@syncfusion/ej2-react-popups";
 import "./App.css";
 import { useStateContext } from "./contexts/ContextProvider";
-import { Sidebar } from "./components";
+import { Sidebar, Navbar } from "./components";
 
 
 const app = () => {
@@ -35,6 +35,13 @@ const app = () => {
               <Sidebar />
             </div>
           )}
+          <div
+            className={`dark:bg-main-dark-bg bg-main-bg min-h-screen w-full ${
+              activeMenu ? "md:ml-72" : "flex-2"
+            }`}
+          >
+            <Navbar />
+          </div>
       </div>
     </BrowserRouter>
   )
