@@ -1,6 +1,27 @@
 import React from "react";
+import { useStateContext } from "../contexts/ContextProvider";
 
 const Search = () => {
+  const { walletAddress, setWalletAddress, walletTokens, setWalletTokens } =
+    useStateContext();
+
+  const searchAddress = async () => {
+    await fetch(
+      `https://api-mainnet.magiceden.dev/v2/wallets/${walletAddress}/tokens?offset=0&limit=100&listStatus=both
+    `,
+      {
+        method: "GET",
+      }
+    )
+      .then((response) => response.json())
+      .then((tokens) => {
+        setWalletTokens(tokens);
+      })
+      .catch((err) => console.error("error:" + err));
+
+    console.log(walletTokens);
+  };
+
   return (
     <>
       <div className="mb-3 w-3/4">
@@ -11,13 +32,22 @@ const Search = () => {
             placeholder="Search"
             aria-label="Search"
             aria-describedby="button-addon3"
+            onChange={(e) => {
+              setWalletAddress(e.target.value);
+            }}
           />
           <button
             className="btn ml-4 inline-block px-6 py-2 border-2 border-blue-600 text-blue-600 font-medium text-xs leading-tight uppercase rounded hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out"
             type="button"
             id="button-addon3"
+            onClick={searchAddress}
           >
             Search
+          </button>
+        </div>
+        <div>
+          <button onClick={console.log(walletTokens[0].collectionName)}>
+            Test
           </button>
         </div>
       </div>

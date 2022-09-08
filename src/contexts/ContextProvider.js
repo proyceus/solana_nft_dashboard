@@ -9,6 +9,8 @@ export const ContextProvider = ({ children }) => {
   const [themeSettings, setThemeSettings] = useState(false);
   const [activeMenu, setActiveMenu] = useState(true);
   const [screenSize, setScreenSize] = useState(undefined);
+  const [walletAddress, setWalletAddress] = useState();
+  const [walletTokens, setWalletTokens] = useState();
 
   return (
     <StateContext.Provider
@@ -19,6 +21,10 @@ export const ContextProvider = ({ children }) => {
         setActiveMenu,
         screenSize,
         setScreenSize,
+        walletAddress,
+        setWalletAddress,
+        walletTokens,
+        setWalletTokens,
       }}
     >
       {children}
