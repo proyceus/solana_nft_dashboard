@@ -1,5 +1,6 @@
 import React from "react";
 import { useStateContext } from "../contexts/ContextProvider";
+import { Gallery } from ".";
 
 const Search = () => {
   const { walletAddress, setWalletAddress, walletTokens, setWalletTokens } =
@@ -46,9 +47,7 @@ const Search = () => {
           </button>
         </div>
         <div>
-          <button onClick={console.log(walletTokens[0].collectionName)}>
-            Test
-          </button>
+          <Gallery />
         </div>
       </div>
     </>
