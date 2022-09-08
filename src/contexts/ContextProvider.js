@@ -3,13 +3,12 @@ import React, { createContext, useContext, useState } from "react";
 
 const StateContext = createContext();
 
-const initialState = {
-
-};
+const initialState = {};
 
 export const ContextProvider = ({ children }) => {
   const [themeSettings, setThemeSettings] = useState(false);
   const [activeMenu, setActiveMenu] = useState(true);
+  const [screenSize, setScreenSize] = useState(undefined);
 
   return (
     <StateContext.Provider
@@ -17,7 +16,9 @@ export const ContextProvider = ({ children }) => {
         themeSettings,
         setThemeSettings,
         activeMenu,
-        setActiveMenu
+        setActiveMenu,
+        screenSize,
+        setScreenSize,
       }}
     >
       {children}
