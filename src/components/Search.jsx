@@ -7,6 +7,7 @@ const Search = () => {
     useStateContext();
 
   const searchAddress = async () => {
+    setWalletTokens();
     await fetch(
       `https://api-mainnet.magiceden.dev/v2/wallets/${walletAddress}/tokens?offset=0&limit=100&listStatus=both
     `,
