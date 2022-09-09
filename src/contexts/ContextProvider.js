@@ -11,6 +11,7 @@ export const ContextProvider = ({ children }) => {
   const [screenSize, setScreenSize] = useState(undefined);
   const [walletAddress, setWalletAddress] = useState();
   const [walletTokens, setWalletTokens] = useState();
+  const [isLoading, setIsLoading] = useState(false);
 
   return (
     <StateContext.Provider
@@ -25,6 +26,8 @@ export const ContextProvider = ({ children }) => {
         setWalletAddress,
         walletTokens,
         setWalletTokens,
+        isLoading,
+        setIsLoading,
       }}
     >
       {children}

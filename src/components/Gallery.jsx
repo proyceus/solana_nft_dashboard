@@ -1,8 +1,11 @@
 import React from "react";
 import { useStateContext } from "../contexts/ContextProvider";
+import { Loading } from ".";
 
 const Gallery = () => {
-  const { walletTokens } = useStateContext();
+  const { walletTokens, isLoading } = useStateContext();
+
+  if (isLoading) return <Loading />;
 
   return (
     <>

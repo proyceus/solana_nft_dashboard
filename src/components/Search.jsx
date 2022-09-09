@@ -3,10 +3,16 @@ import { useStateContext } from "../contexts/ContextProvider";
 import { Gallery } from ".";
 
 const Search = () => {
-  const { walletAddress, setWalletAddress, walletTokens, setWalletTokens } =
-    useStateContext();
+  const {
+    walletAddress,
+    setWalletAddress,
+    walletTokens,
+    setWalletTokens,
+    setIsLoading,
+  } = useStateContext();
 
   const searchAddress = async () => {
+    setIsLoading(true);
     setWalletTokens();
     await fetch(
       `https://api-mainnet.magiceden.dev/v2/wallets/${walletAddress}/tokens?offset=0&limit=100&listStatus=both
@@ -18,6 +24,7 @@ const Search = () => {
       .then((response) => response.json())
       .then((tokens) => {
         setWalletTokens(tokens);
+        setIsLoading(false);
       })
       .catch((err) => console.error("error:" + err));
 
