@@ -56,7 +56,7 @@ const Gallery = () => {
           </div>
         </section>
       )}
-      {cardClick && <NftCard />}
+      {cardClick && <NftCard handleNftClick={handleNftClick} />}
 
       {cardClick && (
         <div
