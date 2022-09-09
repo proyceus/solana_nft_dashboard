@@ -19,8 +19,9 @@ const NftCard = () => {
           className="h-full object-cover rounded-l-xl"
         />
       </div>
-      <div className="w-2/3 mt-5 text-2xl">
-        <p>{specificAsset.name}</p>
+      <div className="w-2/3 mt-5">
+        <p className="text-2xl mb-5">{specificAsset.name}</p>
+        <a href={specificAsset.link}>MagicEden Link</a>
       </div>
     </div>
   );
