@@ -12,6 +12,13 @@ export const ContextProvider = ({ children }) => {
   const [walletAddress, setWalletAddress] = useState();
   const [walletTokens, setWalletTokens] = useState();
   const [isLoading, setIsLoading] = useState(false);
+  const [cardClick, setCardClick] = useState(false);
+  const [specificAsset, setSpecificAsset] = useState({
+    image: "",
+    name: "",
+    link: "",
+    description: "",
+  });
 
   return (
     <StateContext.Provider
@@ -28,6 +35,10 @@ export const ContextProvider = ({ children }) => {
         setWalletTokens,
         isLoading,
         setIsLoading,
+        cardClick,
+        setCardClick,
+        specificAsset,
+        setSpecificAsset,
       }}
     >
       {children}
