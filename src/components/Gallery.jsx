@@ -27,8 +27,6 @@ const Gallery = () => {
       .then((data) => data.floorPrice / 1000000000)
       .catch((err) => console.error("error: ", err));
 
-    console.log(fp);
-
     if (cardClick === false) {
       setSpecificAsset({
         image: image,

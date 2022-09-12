@@ -4,22 +4,6 @@ import { GiCancel } from "react-icons/gi";
 
 const NftCard = ({ handleNftClick }) => {
   const { specificAsset, activeMenu, assetStats } = useStateContext();
-  let stat = {};
-
-  const specificAssetStats = () => {
-    for (let i = 0; i < assetStats.length; i++) {
-      if (assetStats[i].symbol === specificAsset.collection) {
-        return assetStats[i];
-      }
-    }
-  };
-
-  useEffect(() => {
-    if (specificAsset) {
-      stat = specificAssetStats();
-      console.log(stat);
-    }
-  }, [specificAsset]);
 
   return (
     <div
