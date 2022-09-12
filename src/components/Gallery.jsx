@@ -50,7 +50,7 @@ const Gallery = () => {
                       data-image={item.image}
                       data-name={item.name}
                       data-link={`https://magiceden.io/item-details/${item.mintAddress}`}
-                      data-collection={item.collectionName}
+                      data-collection={item.collection}
                       onClick={handleNftClick}
                     />
                   </div>
