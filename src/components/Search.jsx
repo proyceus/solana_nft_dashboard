@@ -57,6 +57,7 @@ const Search = () => {
         <div className="justify-center flex">
           <Gallery />
         </div>
+        <button onClick={() => console.log(walletTokens)}>Test</button>
       </div>
     </>
   );

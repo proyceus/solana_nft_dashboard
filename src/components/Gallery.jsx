@@ -16,14 +16,18 @@ const Gallery = () => {
     const image = e.target.dataset.image;
     const name = e.target.dataset.name;
     const link = e.target.dataset.link;
+    const collection = e.target.dataset.collection;
 
     if (cardClick === false) {
       setSpecificAsset({
         image: image,
         name: name,
         link: link,
+        collection: collection,
       });
     }
+
+    console.log(specificAsset);
 
     cardClick === false ? setCardClick(true) : setCardClick(false);
   };
@@ -46,6 +50,7 @@ const Gallery = () => {
                       data-image={item.image}
                       data-name={item.name}
                       data-link={`https://magiceden.io/item-details/${item.mintAddress}`}
+                      data-collection={item.collectionName}
                       onClick={handleNftClick}
                     />
                   </div>

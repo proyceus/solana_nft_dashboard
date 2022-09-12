@@ -7,7 +7,7 @@ const NftCard = ({ handleNftClick }) => {
 
   return (
     <div
-      className=" sm:flex-wrap border-solid border-2 gap-10 h-1/2 ml-5 mr-5 border-color rounded-xl fixed flex bg-white flex-nowrap"
+      className=" sm:flex-wrap border-solid border-2 h-1/2 ml-5 mr-5 border-color rounded-xl fixed flex bg-white flex-nowrap"
       style={{
         top: "30%",
         zIndex: "200",
@@ -19,14 +19,39 @@ const NftCard = ({ handleNftClick }) => {
           className=" h-full object-cover rounded-l-xl"
         />
       </div>
-      <div className="justify-center flex flex-wrap flex-col pl-5 pr-5">
+      <div className="justify-center text-center flex flex-wrap flex-col pl-5 pr-5 w-1/2">
         <div>
-          <p className="md:text-2xl mb-5">{specificAsset.name}</p>
+          <p className="md:text-2xl font-bold">{specificAsset.name}</p>
         </div>
-        <div className="mt-10">
+        <div className="mt-1 underline italic">
           <a href={specificAsset.link} target="_blank">
             MagicEden Link
           </a>
+          <br />
+          {specificAsset.collection !== undefined && (
+            <a
+              href={`https://magiceden.io/marketplace/${specificAsset.collection}?activeTab=stats`}
+              target="_blank"
+            >
+              Analytics
+            </a>
+          )}
+        </div>
+        <div className="flex justify-center flex-col mt-10 gap-5">
+          <div>
+            <p>Bought</p>
+            <div className="flex justify-center text-center flex-col mt-5">
+              <p className="text-xl">50 SOL</p>
+              <p className="text-gray-400">10/20/2022</p>
+            </div>
+          </div>
+          <div className="mt-5">
+            <p>Current FP Profit</p>
+            <div className="flex justify-center text-center flex-col mt-5">
+              <p className="text-xl">50 SOL</p>
+              <p>20%</p>
+            </div>
+          </div>
         </div>
       </div>
       <div
