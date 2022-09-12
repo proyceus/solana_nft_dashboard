@@ -9,6 +9,8 @@ const Search = () => {
     walletTokens,
     setWalletTokens,
     setIsLoading,
+    setAssetStats,
+    assetStats,
   } = useStateContext();
 
   const searchAddress = async () => {
@@ -29,6 +31,30 @@ const Search = () => {
       .catch((err) => console.error("error:" + err));
 
     console.log(walletTokens);
+  };
+
+  const searchAssetStats = async () => {
+    //bundle all asset names into an array
+    const collection = walletTokens.map((item) => item.collection);
+    let stats = [];
+
+    //loop over this array to get stats on each collection, set a timeout before each call
+    for (let i = 0; i < collection.length; i++) {
+      setTimeout(async () => {
+        //fetch info
+        await fetch(
+          `https://api-mainnet.magiceden.dev/v2/collections/${collection[i]}/stats`,
+          {
+            method: "GET",
+          }
+        )
+          .then((response) => response.json())
+          .then((data) => stats.push(data))
+          .catch((err) => console.error("error: ", err));
+      }, "5000");
+    }
+
+    setAssetStats(stats);
   };
 
   return (
@@ -54,10 +80,12 @@ const Search = () => {
             Search
           </button>
         </div>
+        <button onClick={searchAssetStats}>Test</button>
+        <br />
+        <button onClick={() => console.log(assetStats)}>Work?</button>
         <div className="justify-center flex">
           <Gallery />
         </div>
-        <button onClick={() => console.log(walletTokens)}>Test</button>
       </div>
     </>
   );

@@ -19,6 +19,7 @@ export const ContextProvider = ({ children }) => {
     link: "",
     description: "",
   });
+  const [assetStats, setAssetStats] = useState();
 
   return (
     <StateContext.Provider
@@ -39,6 +40,8 @@ export const ContextProvider = ({ children }) => {
         setCardClick,
         specificAsset,
         setSpecificAsset,
+        assetStats,
+        setAssetStats,
       }}
     >
       {children}

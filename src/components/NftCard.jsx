@@ -3,13 +3,12 @@ import { useStateContext } from "../contexts/ContextProvider";
 import { GiCancel } from "react-icons/gi";
 
 const NftCard = ({ handleNftClick }) => {
-  const { specificAsset, activeMenu } = useStateContext();
+  const { specificAsset, activeMenu, assetStats } = useStateContext();
 
   return (
     <div
       className=" sm:flex-wrap border-solid border-2 h-1/2 ml-5 mr-5 border-color rounded-xl fixed flex bg-white flex-nowrap"
       style={{
-        top: "30%",
         zIndex: "200",
       }}
     >
@@ -38,14 +37,14 @@ const NftCard = ({ handleNftClick }) => {
           )}
         </div>
         <div className="flex justify-center flex-col mt-10 gap-5">
-          <div>
+          <div className="border-solid border-2 rounded-xl p-2 bg-gray-100">
             <p>Bought</p>
             <div className="flex justify-center text-center flex-col mt-5">
               <p className="text-xl">50 SOL</p>
               <p className="text-gray-400">10/20/2022</p>
             </div>
           </div>
-          <div className="mt-5">
+          <div className="border-solid border-2 rounded-xl p-2 bg-gray-100">
             <p>Current FP Profit</p>
             <div className="flex justify-center text-center flex-col mt-5">
               <p className="text-xl">50 SOL</p>
