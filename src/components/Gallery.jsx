@@ -32,7 +32,6 @@ const Gallery = () => {
 
   return (
     <>
-      <button onClick={() => console.log(specificAsset)}>Test</button>
       {walletTokens && (
         <section className="overflow-hidden text-gray-700 ">
           <div className="container px-5 py-2 mx-auto lg:pt-12 lg:px-32">

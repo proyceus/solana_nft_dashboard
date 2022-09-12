@@ -33,7 +33,7 @@ const Search = () => {
 
   return (
     <>
-      <div className="mb-3 w-3/4">
+      <div className="mb-3 w-3/4 justify-center">
         <div className="input-group relative flex items-stretch w-full mb-4">
           <input
             type="search"
@@ -54,7 +54,7 @@ const Search = () => {
             Search
           </button>
         </div>
-        <div>
+        <div className="justify-center flex">
           <Gallery />
         </div>
       </div>
