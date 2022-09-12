@@ -12,11 +12,22 @@ const Gallery = () => {
     specificAsset,
   } = useStateContext();
 
-  const handleNftClick = (e) => {
+  const handleNftClick = async (e) => {
     const image = e.target.dataset.image;
     const name = e.target.dataset.name;
     const link = e.target.dataset.link;
     const collection = e.target.dataset.collection;
+    const fp = await fetch(
+      `https://api-mainnet.magiceden.dev/v2/collections/${collection}/stats`,
+      {
+        method: "GET",
+      }
+    )
+      .then((response) => response.json())
+      .then((data) => data.floorPrice / 1000000000)
+      .catch((err) => console.error("error: ", err));
+
+    console.log(fp);
 
     if (cardClick === false) {
       setSpecificAsset({
@@ -24,10 +35,9 @@ const Gallery = () => {
         name: name,
         link: link,
         collection: collection,
+        floorPrice: fp,
       });
     }
-
-    console.log(specificAsset);
 
     cardClick === false ? setCardClick(true) : setCardClick(false);
   };

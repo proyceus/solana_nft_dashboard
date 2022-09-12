@@ -63,8 +63,9 @@ const NftCard = ({ handleNftClick }) => {
           <div className="border-solid border-2 rounded-xl p-2 bg-gray-100">
             <p>Current FP</p>
             <div className="flex justify-center text-center flex-col mt-5">
-              <p className="text-xl">{stat && stat.floorPrice}</p>
-              <p>20%</p>
+              <p className="text-xl">
+                {specificAsset.floorPrice ? specificAsset.floorPrice : "N/A"}
+              </p>
             </div>
           </div>
         </div>
