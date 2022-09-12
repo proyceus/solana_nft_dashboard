@@ -1,9 +1,25 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useStateContext } from "../contexts/ContextProvider";
 import { GiCancel } from "react-icons/gi";
 
 const NftCard = ({ handleNftClick }) => {
   const { specificAsset, activeMenu, assetStats } = useStateContext();
+  let stat = {};
+
+  const specificAssetStats = () => {
+    for (let i = 0; i < assetStats.length; i++) {
+      if (assetStats[i].symbol === specificAsset.collection) {
+        return assetStats[i];
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (specificAsset) {
+      stat = specificAssetStats();
+      console.log(stat);
+    }
+  }, [specificAsset]);
 
   return (
     <div
@@ -45,9 +61,9 @@ const NftCard = ({ handleNftClick }) => {
             </div>
           </div>
           <div className="border-solid border-2 rounded-xl p-2 bg-gray-100">
-            <p>Current FP Profit</p>
+            <p>Current FP</p>
             <div className="flex justify-center text-center flex-col mt-5">
-              <p className="text-xl">50 SOL</p>
+              <p className="text-xl">{stat && stat.floorPrice}</p>
               <p>20%</p>
             </div>
           </div>

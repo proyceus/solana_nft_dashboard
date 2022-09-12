@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useStateContext } from "../contexts/ContextProvider";
 import { Gallery } from ".";
 
@@ -15,7 +15,6 @@ const Search = () => {
 
   const searchAddress = async () => {
     setIsLoading(true);
-    setWalletTokens();
     await fetch(
       `https://api-mainnet.magiceden.dev/v2/wallets/${walletAddress}/tokens?offset=0&limit=100&listStatus=both
     `,
@@ -29,11 +28,9 @@ const Search = () => {
         setIsLoading(false);
       })
       .catch((err) => console.error("error:" + err));
-
-    console.log(walletTokens);
   };
 
-  const searchAssetStats = async () => {
+  const searchAssetStats = () => {
     //bundle all asset names into an array
     const collection = walletTokens.map((item) => item.collection);
     let stats = [];
@@ -56,6 +53,30 @@ const Search = () => {
 
     setAssetStats(stats);
   };
+
+  const filterStats = () => {
+    const uniqueCollections = [];
+
+    const filteredStats = assetStats.filter((element) => {
+      const isDuplicate = uniqueCollections.includes(element.symbol);
+
+      if (!isDuplicate) {
+        uniqueCollections.push(element.symbol);
+
+        return true;
+      }
+
+      return false;
+    });
+
+    setAssetStats(filteredStats);
+  };
+
+  useEffect(async () => {
+    if (walletTokens) {
+      await searchAssetStats().then(filterStats());
+    }
+  }, [walletTokens]);
 
   return (
     <>
