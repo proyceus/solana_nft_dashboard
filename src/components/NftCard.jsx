@@ -30,10 +30,12 @@ const NftCard = ({ handleNftClick }) => {
         </div>
       </div>
       <div
-        className="text-2xl cursor-pointer w-1/6 absolute -right-20 mt-2"
+        className="text-2xl cursor-pointer w-1/6 absolute right-0 top-0"
         onClick={handleNftClick}
       >
-        <GiCancel />
+        <div className="absolute right-1 top-1">
+          <GiCancel />
+        </div>
       </div>
     </div>
   );
