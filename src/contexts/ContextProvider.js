@@ -13,12 +13,7 @@ export const ContextProvider = ({ children }) => {
   const [walletTokens, setWalletTokens] = useState();
   const [isLoading, setIsLoading] = useState(false);
   const [cardClick, setCardClick] = useState(false);
-  const [specificAsset, setSpecificAsset] = useState({
-    image: "",
-    name: "",
-    link: "",
-    description: "",
-  });
+  const [specificAsset, setSpecificAsset] = useState({});
   const [assetStats, setAssetStats] = useState();
 
   return (

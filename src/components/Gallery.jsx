@@ -1,6 +1,7 @@
 import React from "react";
 import { useStateContext } from "../contexts/ContextProvider";
 import { Loading, NftCard } from ".";
+import moment from "moment";
 
 const Gallery = () => {
   const {
@@ -18,6 +19,7 @@ const Gallery = () => {
     const link = e.target.dataset.link;
     const collection = e.target.dataset.collection;
     const address = e.target.dataset.address;
+    let datePurchased;
 
     if (cardClick === false) {
       const fp = await fetch(
@@ -38,8 +40,12 @@ const Gallery = () => {
       )
         .then((response) => response.json())
         .then((data) => {
+          console.log(data);
           for (let i = 0; i < data.length; i++) {
             if (data[i].type === "buyNow") {
+              datePurchased = moment
+                .unix(data[i].blockTime)
+                .format("MM/DD/YYYY");
               return data[i].price;
             }
           }
@@ -53,6 +59,7 @@ const Gallery = () => {
         collection: collection,
         floorPrice: fp,
         purchasePrice: purchased,
+        datePurchased,
       });
     }
 
