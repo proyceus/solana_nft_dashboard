@@ -17,23 +17,42 @@ const Gallery = () => {
     const name = e.target.dataset.name;
     const link = e.target.dataset.link;
     const collection = e.target.dataset.collection;
-    const fp = await fetch(
-      `https://api-mainnet.magiceden.dev/v2/collections/${collection}/stats`,
-      {
-        method: "GET",
-      }
-    )
-      .then((response) => response.json())
-      .then((data) => data.floorPrice / 1000000000)
-      .catch((err) => console.error("error: ", err));
+    const address = e.target.dataset.address;
 
     if (cardClick === false) {
+      const fp = await fetch(
+        `https://api-mainnet.magiceden.dev/v2/collections/${collection}/stats`,
+        {
+          method: "GET",
+        }
+      )
+        .then((response) => response.json())
+        .then((data) => data.floorPrice / 1000000000)
+        .then(console.log("finding FP"))
+        .catch((err) => console.error("error: ", err));
+      const purchased = await fetch(
+        `https://api-mainnet.magiceden.dev/v2/tokens/${address}/activities?offset=0&limit=10`,
+        {
+          method: "GET",
+        }
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          for (let i = 0; i < data.length; i++) {
+            if (data[i].type === "buyNow") {
+              return data[i].price;
+            }
+          }
+          return "N/A";
+        });
+
       setSpecificAsset({
         image: image,
         name: name,
         link: link,
         collection: collection,
         floorPrice: fp,
+        purchasePrice: purchased,
       });
     }
 
@@ -59,6 +78,7 @@ const Gallery = () => {
                       data-name={item.name}
                       data-link={`https://magiceden.io/item-details/${item.mintAddress}`}
                       data-collection={item.collection}
+                      data-address={item.mintAddress}
                       onClick={handleNftClick}
                     />
                   </div>

@@ -25,6 +25,7 @@ const Search = () => {
       .then((response) => response.json())
       .then((tokens) => {
         setWalletTokens(tokens);
+        console.log(tokens);
         setIsLoading(false);
       })
       .catch((err) => console.error("error:" + err));

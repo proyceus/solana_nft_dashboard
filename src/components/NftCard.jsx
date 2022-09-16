@@ -40,7 +40,7 @@ const NftCard = ({ handleNftClick }) => {
           <div className="border-solid border-2 rounded-xl p-2 bg-gray-100">
             <p>Bought</p>
             <div className="flex justify-center text-center flex-col mt-5">
-              <p className="text-xl">50 SOL</p>
+              <p className="text-xl">{specificAsset.purchasePrice}</p>
               <p className="text-gray-400">10/20/2022</p>
             </div>
           </div>
