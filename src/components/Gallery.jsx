@@ -2,7 +2,7 @@ import React from "react";
 import { useStateContext } from "../contexts/ContextProvider";
 import { Loading, NftCard } from ".";
 import moment from "moment";
-import { findData } from "../helpers/helpers.js";
+import { findData, fetchSolanaPrice } from "../helpers/helpers.js";
 
 const Gallery = () => {
   const {
@@ -102,6 +102,9 @@ const Gallery = () => {
         }
       }
 
+      const solPrice = await fetchSolanaPrice(buyDate);
+      const solPriceToday = await fetchSolanaPrice();
+
       setSpecificAsset({
         image: image,
         name: name,
@@ -110,6 +113,8 @@ const Gallery = () => {
         floorPrice: fp,
         purchasePrice: purchasePrice,
         datePurchased: buyDate,
+        solPrice,
+        solPriceToday,
       });
     }
 
