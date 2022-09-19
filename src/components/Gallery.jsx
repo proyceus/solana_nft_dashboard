@@ -13,6 +13,8 @@ const Gallery = () => {
     specificAsset,
     collectionFp,
     setCollectionFp,
+    datePurchased,
+    setDatePurchased,
   } = useStateContext();
 
   const handleNftClick = async (e) => {
@@ -21,7 +23,6 @@ const Gallery = () => {
     const link = e.target.dataset.link;
     const collection = e.target.dataset.collection;
     const address = e.target.dataset.address;
-    let datePurchased;
 
     if (cardClick === false) {
       const fp = await fetch(
@@ -33,7 +34,10 @@ const Gallery = () => {
         .then((response) => response.json())
         .then((data) => {
           setCollectionFp((prevState) =>
-            prevState.push({ name: collection, fp: data.floorPrice })
+            prevState.push({
+              name: collection,
+              fp: data.floorPrice / 1000000000,
+            })
           );
           return data.floorPrice / 1000000000;
         })
@@ -50,9 +54,13 @@ const Gallery = () => {
           console.log(data);
           for (let i = 0; i < data.length; i++) {
             if (data[i].type === "buyNow") {
-              datePurchased = moment
-                .unix(data[i].blockTime)
-                .format("MM/DD/YYYY");
+              setDatePurchased((prevState) =>
+                prevState.push({
+                  address: address,
+                  date: moment.unix(data[i].blockTime).format("MM/DD/YYYY"),
+                  price: data[i].price,
+                })
+              );
               return data[i].price;
             }
           }

@@ -16,6 +16,7 @@ export const ContextProvider = ({ children }) => {
   const [specificAsset, setSpecificAsset] = useState({});
   const [assetStats, setAssetStats] = useState();
   const [collectionFp, setCollectionFp] = useState([]);
+  const [datePurchased, setDatePurchased] = useState([]);
 
   return (
     <StateContext.Provider
@@ -40,6 +41,8 @@ export const ContextProvider = ({ children }) => {
         setAssetStats,
         collectionFp,
         setCollectionFp,
+        datePurchased,
+        setDatePurchased,
       }}
     >
       {children}
