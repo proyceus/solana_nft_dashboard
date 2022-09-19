@@ -4,6 +4,6 @@ export const findData = (stateToSearch, searchVariable, searchVariableType) => {
       console.log("Found old data");
       return true;
     }
-    return false;
   }
+  return false;
 };

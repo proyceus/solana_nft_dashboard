@@ -24,13 +24,12 @@ const Gallery = () => {
     const link = e.target.dataset.link;
     const collection = e.target.dataset.collection;
     const address = e.target.dataset.address;
-    let buyDate;
     let fp;
-    let purchased;
+    let purchasePrice;
+    let buyDate;
 
     if (cardClick === false) {
       if (!findData(collectionFp, collection, "collection")) {
-        console.log(collectionFp);
         fp = await fetch(
           `https://api-mainnet.magiceden.dev/v2/collections/${collection}/stats`,
           {
@@ -48,12 +47,18 @@ const Gallery = () => {
             ]);
             return data.floorPrice / 1000000000;
           })
-          .then(console.log("finding FP"))
           .catch((err) => console.error("error: ", err));
+      } else {
+        for (let i = 0; i < collectionFp.length; i++) {
+          if (collectionFp[i]["collection"] === collection) {
+            fp = collectionFp[i].fp;
+            break;
+          }
+        }
       }
 
       if (!findData(datePurchased, address, "address")) {
-        purchased = await fetch(
+        purchasePrice = await fetch(
           `https://api-mainnet.magiceden.dev/v2/tokens/${address}/activities?offset=0&limit=10`,
           {
             method: "GET",
@@ -61,7 +66,6 @@ const Gallery = () => {
         )
           .then((response) => response.json())
           .then((data) => {
-            console.log(data);
             for (let i = 0; i < data.length; i++) {
               if (data[i].type === "buyNow") {
                 buyDate = moment.unix(data[i].blockTime).format("MM/DD/YYYY");
@@ -78,6 +82,14 @@ const Gallery = () => {
             }
             return "N/A";
           });
+      } else {
+        for (let i = 0; i < datePurchased.length; i++) {
+          if (datePurchased[i]["address"] === address) {
+            purchasePrice = datePurchased[i].price;
+            buyDate = datePurchased[i].date;
+            break;
+          }
+        }
       }
 
       setSpecificAsset({
@@ -86,7 +98,7 @@ const Gallery = () => {
         link: link,
         collection: collection,
         floorPrice: fp,
-        purchasePrice: purchased,
+        purchasePrice: purchasePrice,
         datePurchased: buyDate,
       });
     }
