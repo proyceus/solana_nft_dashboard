@@ -2,6 +2,7 @@ import React from "react";
 import { useStateContext } from "../contexts/ContextProvider";
 import { Loading, NftCard } from ".";
 import moment from "moment";
+import { findData } from "../helpers/helpers.js";
 
 const Gallery = () => {
   const {
@@ -23,49 +24,56 @@ const Gallery = () => {
     const link = e.target.dataset.link;
     const collection = e.target.dataset.collection;
     const address = e.target.dataset.address;
+    let buyDate;
 
     if (cardClick === false) {
-      const fp = await fetch(
-        `https://api-mainnet.magiceden.dev/v2/collections/${collection}/stats`,
-        {
-          method: "GET",
-        }
-      )
-        .then((response) => response.json())
-        .then((data) => {
-          setCollectionFp((prevState) =>
-            prevState.push({
-              name: collection,
-              fp: data.floorPrice / 1000000000,
-            })
-          );
-          return data.floorPrice / 1000000000;
-        })
-        .then(console.log("finding FP"))
-        .catch((err) => console.error("error: ", err));
-      const purchased = await fetch(
-        `https://api-mainnet.magiceden.dev/v2/tokens/${address}/activities?offset=0&limit=10`,
-        {
-          method: "GET",
-        }
-      )
-        .then((response) => response.json())
-        .then((data) => {
-          console.log(data);
-          for (let i = 0; i < data.length; i++) {
-            if (data[i].type === "buyNow") {
-              setDatePurchased((prevState) =>
-                prevState.push({
-                  address: address,
-                  date: moment.unix(data[i].blockTime).format("MM/DD/YYYY"),
-                  price: data[i].price,
-                })
-              );
-              return data[i].price;
-            }
+      if (!findData(collectionFp, collection)) {
+        const fp = await fetch(
+          `https://api-mainnet.magiceden.dev/v2/collections/${collection}/stats`,
+          {
+            method: "GET",
           }
-          return "N/A";
-        });
+        )
+          .then((response) => response.json())
+          .then((data) => {
+            setCollectionFp((prevState) =>
+              prevState.push({
+                name: collection,
+                fp: data.floorPrice / 1000000000,
+              })
+            );
+            return data.floorPrice / 1000000000;
+          })
+          .then(console.log("finding FP"))
+          .catch((err) => console.error("error: ", err));
+      }
+
+      if (!findData(datePurchased, address)) {
+        const purchased = await fetch(
+          `https://api-mainnet.magiceden.dev/v2/tokens/${address}/activities?offset=0&limit=10`,
+          {
+            method: "GET",
+          }
+        )
+          .then((response) => response.json())
+          .then((data) => {
+            console.log(data);
+            for (let i = 0; i < data.length; i++) {
+              if (data[i].type === "buyNow") {
+                buyDate = moment.unix(data[i].blockTime).format("MM/DD/YYYY");
+                setDatePurchased((prevState) =>
+                  prevState.push({
+                    address: address,
+                    date: buyDate,
+                    price: data[i].price,
+                  })
+                );
+                return data[i].price;
+              }
+            }
+            return "N/A";
+          });
+      }
 
       setSpecificAsset({
         image: image,
@@ -74,7 +82,7 @@ const Gallery = () => {
         collection: collection,
         floorPrice: fp,
         purchasePrice: purchased,
-        datePurchased,
+        datePurchased: buyDate,
       });
     }
 
