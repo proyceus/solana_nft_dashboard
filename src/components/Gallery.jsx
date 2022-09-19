@@ -11,6 +11,8 @@ const Gallery = () => {
     setCardClick,
     setSpecificAsset,
     specificAsset,
+    collectionFp,
+    setCollectionFp,
   } = useStateContext();
 
   const handleNftClick = async (e) => {
@@ -29,7 +31,12 @@ const Gallery = () => {
         }
       )
         .then((response) => response.json())
-        .then((data) => data.floorPrice / 1000000000)
+        .then((data) => {
+          setCollectionFp((prevState) =>
+            prevState.push({ name: collection, fp: data.floorPrice })
+          );
+          return data.floorPrice / 1000000000;
+        })
         .then(console.log("finding FP"))
         .catch((err) => console.error("error: ", err));
       const purchased = await fetch(
