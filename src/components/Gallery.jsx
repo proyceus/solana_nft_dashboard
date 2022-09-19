@@ -25,10 +25,13 @@ const Gallery = () => {
     const collection = e.target.dataset.collection;
     const address = e.target.dataset.address;
     let buyDate;
+    let fp;
+    let purchased;
 
     if (cardClick === false) {
-      if (!findData(collectionFp, collection)) {
-        const fp = await fetch(
+      if (!findData(collectionFp, collection, "collection")) {
+        console.log(collectionFp);
+        fp = await fetch(
           `https://api-mainnet.magiceden.dev/v2/collections/${collection}/stats`,
           {
             method: "GET",
@@ -36,20 +39,21 @@ const Gallery = () => {
         )
           .then((response) => response.json())
           .then((data) => {
-            setCollectionFp((prevState) =>
-              prevState.push({
-                name: collection,
+            setCollectionFp((prevState) => [
+              ...prevState,
+              {
+                collection: collection,
                 fp: data.floorPrice / 1000000000,
-              })
-            );
+              },
+            ]);
             return data.floorPrice / 1000000000;
           })
           .then(console.log("finding FP"))
           .catch((err) => console.error("error: ", err));
       }
 
-      if (!findData(datePurchased, address)) {
-        const purchased = await fetch(
+      if (!findData(datePurchased, address, "address")) {
+        purchased = await fetch(
           `https://api-mainnet.magiceden.dev/v2/tokens/${address}/activities?offset=0&limit=10`,
           {
             method: "GET",
@@ -61,13 +65,14 @@ const Gallery = () => {
             for (let i = 0; i < data.length; i++) {
               if (data[i].type === "buyNow") {
                 buyDate = moment.unix(data[i].blockTime).format("MM/DD/YYYY");
-                setDatePurchased((prevState) =>
-                  prevState.push({
+                setDatePurchased((prevState) => [
+                  ...prevState,
+                  {
                     address: address,
                     date: buyDate,
                     price: data[i].price,
-                  })
-                );
+                  },
+                ]);
                 return data[i].price;
               }
             }
