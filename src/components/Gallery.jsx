@@ -30,6 +30,7 @@ const Gallery = () => {
 
     if (cardClick === false) {
       if (!findData(collectionFp, collection, "collection")) {
+        console.log("fetching data");
         fp = await fetch(
           `https://api-mainnet.magiceden.dev/v2/collections/${collection}/stats`,
           {
@@ -58,6 +59,7 @@ const Gallery = () => {
       }
 
       if (!findData(datePurchased, address, "address")) {
+        console.log("fetching data");
         purchasePrice = await fetch(
           `https://api-mainnet.magiceden.dev/v2/tokens/${address}/activities?offset=0&limit=10`,
           {
@@ -80,6 +82,14 @@ const Gallery = () => {
                 return data[i].price;
               }
             }
+            setDatePurchased((prevState) => [
+              ...prevState,
+              {
+                address,
+                date: "N/A",
+                price: "N/A",
+              },
+            ]);
             return "N/A";
           });
       } else {
