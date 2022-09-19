@@ -26,7 +26,8 @@ const Gallery = () => {
     const address = e.target.dataset.address;
     let fp;
     let purchasePrice;
-    let buyDate;
+    let buyDate = undefined;
+    let solPrice = "";
 
     if (cardClick === false) {
       if (!findData(collectionFp, collection, "collection")) {
@@ -94,7 +95,10 @@ const Gallery = () => {
           });
       } else {
         for (let i = 0; i < datePurchased.length; i++) {
-          if (datePurchased[i]["address"] === address) {
+          if (
+            datePurchased[i]["address"] === address &&
+            datePurchased[i].date !== "N/A"
+          ) {
             purchasePrice = datePurchased[i].price;
             buyDate = datePurchased[i].date;
             break;
@@ -102,7 +106,10 @@ const Gallery = () => {
         }
       }
 
-      const solPrice = await fetchSolanaPrice(buyDate);
+      if (buyDate !== undefined) {
+        solPrice = await fetchSolanaPrice(buyDate);
+      }
+
       const solPriceToday = await fetchSolanaPrice();
 
       setSpecificAsset({
@@ -117,6 +124,8 @@ const Gallery = () => {
         solPriceToday,
       });
     }
+
+    if (cardClick === true) setSpecificAsset({});
 
     cardClick === false ? setCardClick(true) : setCardClick(false);
   };
@@ -150,7 +159,7 @@ const Gallery = () => {
           </div>
         </section>
       )}
-      {cardClick && <NftCard handleNftClick={handleNftClick} />}
+      {specificAsset.name && <NftCard handleNftClick={handleNftClick} />}
 
       {cardClick && (
         <div

@@ -40,19 +40,24 @@ const NftCard = ({ handleNftClick }) => {
           <div className="border-solid border-2 rounded-xl p-2 bg-gray-100">
             <p>Bought</p>
             <div className="flex justify-center text-center flex-col mt-5">
-              <p className="text-xl">{specificAsset.purchasePrice} SOL</p>
-              {specificAsset.datePurchased !== "N/A" && (
+              <p className="text-xl">
+                {specificAsset.purchasePrice
+                  ? `${specificAsset.purchasePrice} SOL`
+                  : "Minted"}
+              </p>
+              {specificAsset.datePurchased !== "" && (
                 <p className="text-gray-400">{specificAsset.datePurchased}</p>
               )}
-              {specificAsset.purchasePrice > 0 && (
-                <p className="text-xl">
-                  USD Cost: $
-                  {(
-                    Number(specificAsset.solPrice.slice(1)) *
-                    specificAsset.purchasePrice
-                  ).toFixed(2)}
-                </p>
-              )}
+              {specificAsset.purchasePrice > 0 &&
+                specificAsset.solPrice !== "N/A" && (
+                  <p className="text-xl">
+                    USD Cost: $
+                    {(
+                      Number(specificAsset.solPrice.slice(1)) *
+                      specificAsset.purchasePrice
+                    ).toFixed(2)}
+                  </p>
+                )}
               {specificAsset.solPrice.length >= 5 && (
                 <p className="text-gray-400">
                   SOL Price: {specificAsset.solPrice}
@@ -70,11 +75,12 @@ const NftCard = ({ handleNftClick }) => {
               </p>
               <br />
               <p className="text-xl">
-                $
-                {(
-                  Number(specificAsset.solPriceToday.slice(1)) *
-                  specificAsset.floorPrice
-                ).toFixed(2)}
+                {specificAsset.floorPrice
+                  ? `$${(
+                      Number(specificAsset.solPriceToday.slice(1)) *
+                      specificAsset.floorPrice
+                    ).toFixed(2)}`
+                  : "N/A"}
               </p>
             </div>
           </div>
