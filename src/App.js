@@ -5,7 +5,7 @@ import { TooltipComponent } from "@syncfusion/ej2-react-popups";
 import "./App.css";
 import { useStateContext } from "./contexts/ContextProvider";
 import { Sidebar, Navbar } from "./components";
-import { Analytics, Calendar, Home, MyCollection, ProfitLoss } from "./pages";
+import { History, Calendar, Home, MyCollection, ProfitLoss } from "./pages";
 
 const app = () => {
   const { themeSettings, setThemeSettings, activeMenu, setActiveMenu } =
@@ -55,7 +55,7 @@ const app = () => {
               {/* Pages */}
               <Route path="/collection" element={<MyCollection />} />
               <Route path="/profitloss" element={<ProfitLoss />} />
-              <Route path="/analytics" element={<Analytics />} />
+              <Route path="/history" element={<History />} />
               <Route path="/calendar" element={<Calendar />} />
             </Routes>
           </div>

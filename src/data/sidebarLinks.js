@@ -29,7 +29,7 @@ export const links = [
         icon: <AiOutlineDollar />,
       },
       {
-        name: "Analytics",
+        name: "History",
         icon: <IoAnalyticsOutline />,
       },
       {
