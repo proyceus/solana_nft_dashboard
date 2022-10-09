@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { NftCard } from "../components";
+import { Gallery } from "../components";
 import { useStateContext } from "../contexts/ContextProvider";
 
 const MyCollection = () => {
@@ -7,7 +7,13 @@ const MyCollection = () => {
 
   return (
     <div>
-      {walletAddress ? <NftCard /> : <p>There is no wallet connected.</p>}
+      {walletAddress ? (
+        <div className="justify-center flex">
+          <Gallery />
+        </div>
+      ) : (
+        <p>There is no wallet connected.</p>
+      )}
     </div>
   );
 };

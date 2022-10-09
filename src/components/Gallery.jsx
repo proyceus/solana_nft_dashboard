@@ -62,7 +62,7 @@ const Gallery = () => {
       if (!findData(datePurchased, address, "address")) {
         console.log("fetching data");
         purchasePrice = await fetch(
-          `https://api-mainnet.magiceden.dev/v2/tokens/${address}/activities?offset=0`,
+          `https://api-mainnet.magiceden.dev/v2/tokens/${address}/activities?offset=0&limit=500`,
           {
             method: "GET",
           }

@@ -102,9 +102,6 @@ const Search = () => {
             Search
           </button>
         </div>
-        <div className="justify-center flex">
-          <Gallery />
-        </div>
       </div>
     </>
   );
