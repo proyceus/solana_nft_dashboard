@@ -6,6 +6,7 @@ import { RiNotification3Line } from "react-icons/ri";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { TooltipComponent } from "@syncfusion/ej2-react-popups";
 import { useStateContext } from "../contexts/ContextProvider";
+import { updateState } from "../helpers/helpers.js";
 
 const NavButton = ({ title, customFunc, icon, color, dotColor }) => (
   <TooltipComponent content={title} position="BottomCenter">
@@ -34,6 +35,9 @@ const Navbar = () => {
     screenSize,
     setScreenSize,
     currentColor,
+    collectionFp,
+    datePurchased,
+    setCollectionFp,
   } = useStateContext();
 
   useEffect(() => {
@@ -51,6 +55,20 @@ const Navbar = () => {
     }
   }, [screenSize]);
 
+  //use this syntax to update an object within state
+  const dummyFunc = () => {
+    setCollectionFp((current) =>
+      current.map((obj) => {
+        console.log(obj);
+        if (obj["collection"] === "wakuland") {
+          return { ...obj, fp: 500 };
+        }
+
+        return obj;
+      })
+    );
+  };
+
   return (
     <div className="flex justify-between p-2 md:mx-6 relative">
       <NavButton
@@ -59,6 +77,10 @@ const Navbar = () => {
         color={currentColor}
         icon={<AiOutlineMenu />}
       />
+      <button onClick={() => console.log(collectionFp)}>collectionFp</button>
+      <button onClick={() => console.log(datePurchased)}>datePurchased</button>
+      <button onClick={dummyFunc}>testClick</button>
+
       <div className="flex">
         <TooltipComponent content="Profile" position="BottomCenter">
           <div

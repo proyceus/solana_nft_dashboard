@@ -8,6 +8,24 @@ export const findData = (stateToSearch, searchVariable, searchVariableType) => {
   return false;
 };
 
+export const updateState = (
+  stateToUpdate,
+  searchVariable,
+  searchVariableType,
+  changeObject
+) => {
+  // stateToUpdate((current) => {
+  //   current.map((obj) => {
+  //     if (obj[searchVariableType] === searchVariable) {
+  //       return { ...obj, ...updates };
+  //     }
+
+  //     return obj;
+  //   });
+  // });
+  console.log(args[0]);
+};
+
 export const fetchSolanaPrice = async (givenDate) => {
   let date;
 
