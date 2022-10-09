@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import { NftCard } from "../components";
+import { useStateContext } from "../contexts/ContextProvider";
 
 const MyCollection = () => {
+  const { walletAddress } = useStateContext();
+
   return (
     <div>
-      <NftCard />
+      {walletAddress ? <NftCard /> : <p>There is no wallet connected.</p>}
     </div>
   );
 };

@@ -20,16 +20,12 @@ export const fetchSolanaPrice = async (givenDate) => {
     date.getMonth() + 1
   }-${date.getFullYear()}`;
 
-  console.log(dateString);
-
   const price = await fetch(
     `https://api.coingecko.com/api/v3/coins/solana/history?date=${dateString}`,
     {
       method: "GET",
     }
   ).then((response) => response.json());
-
-  console.log(price);
 
   return `$${price.market_data.current_price.usd.toFixed(2)}`;
 };
