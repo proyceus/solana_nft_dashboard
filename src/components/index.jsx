@@ -5,3 +5,4 @@ export { default as Search } from "./Search";
 export { default as Gallery } from "./Gallery";
 export { default as NftCard } from "./NftCard";
 export { default as Loading } from "./Loading";
+export { default as Header } from "./Header";
