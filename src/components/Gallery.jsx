@@ -31,8 +31,7 @@ const Gallery = () => {
     let solPrice = "";
 
     if (cardClick === false) {
-      if (!findData(walletTokens, collection, "collection")) {
-        console.log("fetching data");
+      if (!findData(walletTokens, "fp", address)) {
         fp = await fetch(
           `https://api-mainnet.magiceden.dev/v2/collections/${collection}/stats`,
           {
@@ -41,27 +40,19 @@ const Gallery = () => {
         )
           .then((response) => response.json())
           .then((data) => {
-            setCollectionFp((prevState) => [
-              ...prevState,
-              {
-                collection: collection,
-                fp: data.floorPrice / 1000000000,
-              },
-            ]);
             return data.floorPrice / 1000000000;
           })
           .catch((err) => console.error("error: ", err));
       } else {
-        for (let i = 0; i < collectionFp.length; i++) {
-          if (collectionFp[i]["collection"] === collection) {
-            fp = collectionFp[i].fp;
+        for (let i = 0; i < walletTokens.length; i++) {
+          if (walletTokens[i]["collection"] === collection) {
+            fp = walletTokens[i].fp;
             break;
           }
         }
       }
 
-      if (!findData(walletTokens, address, "address")) {
-        console.log("fetching data");
+      if (!findData(walletTokens, "purchasePrice", address)) {
         purchasePrice = await fetch(
           `https://api-mainnet.magiceden.dev/v2/tokens/${address}/activities?offset=0&limit=500`,
           {
@@ -73,41 +64,26 @@ const Gallery = () => {
             for (let i = 0; i < data.length; i++) {
               if (data[i].type === "buyNow") {
                 buyDate = moment.unix(data[i].blockTime).format("MM/DD/YYYY");
-                setDatePurchased((prevState) => [
-                  ...prevState,
-                  {
-                    address: address,
-                    date: buyDate,
-                    price: data[i].price,
-                  },
-                ]);
+
                 return data[i].price;
               }
             }
-            setDatePurchased((prevState) => [
-              ...prevState,
-              {
-                address,
-                date: "N/A",
-                price: "N/A",
-              },
-            ]);
+
+            buyDate = "N/A";
+
             return "N/A";
           });
       } else {
-        for (let i = 0; i < datePurchased.length; i++) {
-          if (
-            datePurchased[i]["address"] === address &&
-            datePurchased[i].date !== "N/A"
-          ) {
-            purchasePrice = datePurchased[i].price;
-            buyDate = datePurchased[i].date;
+        for (let i = 0; i < walletTokens.length; i++) {
+          if (walletTokens[i]["mintAddress"] === address) {
+            purchasePrice = walletTokens[i].purchasePrice;
+            buyDate = walletTokens[i].datePurchased;
             break;
           }
         }
       }
 
-      if (buyDate !== undefined) {
+      if (buyDate !== undefined && buyDate !== "N/A") {
         solPrice = await fetchSolanaPrice(buyDate);
       }
 
@@ -128,7 +104,6 @@ const Gallery = () => {
       setWalletTokens((current) =>
         current.map((obj) => {
           if (obj["collection"] === collection) {
-            console.log("Update");
             return {
               ...obj,
               fp: fp,

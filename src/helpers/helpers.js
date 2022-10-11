@@ -1,29 +1,23 @@
-export const findData = (stateToSearch, searchVariable, searchVariableType) => {
+export const findData = (stateToSearch, searchVariableType, assetAddress) => {
   for (let i = 0; i < stateToSearch.length; i++) {
-    if (stateToSearch[i][searchVariableType] === searchVariable) {
-      console.log("Found old data");
-      return true;
+    if (stateToSearch[i]["mintAddress"] === assetAddress) {
+      if (searchVariableType === "fp") {
+        if (stateToSearch[i]["fp"] >= 0 || stateToSearch[i]["fp"] === "N/A") {
+          console.log("True");
+          return true;
+        }
+      } else if (searchVariableType === "purchasePrice") {
+        if (
+          stateToSearch[i]["purchasePrice"] >= 0 ||
+          stateToSearch[i]["purchasePrice"] === "N/A"
+        ) {
+          console.log("purchasepricetrue");
+          return true;
+        }
+      }
     }
   }
   return false;
-};
-
-export const updateState = (
-  stateToUpdate,
-  searchVariable,
-  searchVariableType,
-  changeObject
-) => {
-  // stateToUpdate((current) => {
-  //   current.map((obj) => {
-  //     if (obj[searchVariableType] === searchVariable) {
-  //       return { ...obj, ...updates };
-  //     }
-
-  //     return obj;
-  //   });
-  // });
-  console.log(args[0]);
 };
 
 export const fetchSolanaPrice = async (givenDate) => {
