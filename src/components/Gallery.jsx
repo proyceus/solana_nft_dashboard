@@ -31,7 +31,7 @@ const Gallery = () => {
     let solPrice = "";
 
     if (cardClick === false) {
-      if (!findData(collectionFp, collection, "collection")) {
+      if (!findData(walletTokens, collection, "collection")) {
         console.log("fetching data");
         fp = await fetch(
           `https://api-mainnet.magiceden.dev/v2/collections/${collection}/stats`,
@@ -60,7 +60,7 @@ const Gallery = () => {
         }
       }
 
-      if (!findData(datePurchased, address, "address")) {
+      if (!findData(walletTokens, address, "address")) {
         console.log("fetching data");
         purchasePrice = await fetch(
           `https://api-mainnet.magiceden.dev/v2/tokens/${address}/activities?offset=0&limit=500`,
@@ -127,7 +127,6 @@ const Gallery = () => {
 
       setWalletTokens((current) =>
         current.map((obj) => {
-          console.log(obj);
           if (obj["collection"] === collection) {
             console.log("Update");
             return {
@@ -139,8 +138,7 @@ const Gallery = () => {
               solPriceToday,
             };
           }
-          console.log(obj[collection]);
-          console.log(collection);
+
           return obj;
         })
       );
