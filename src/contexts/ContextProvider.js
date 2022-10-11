@@ -36,8 +36,6 @@ export const ContextProvider = ({ children }) => {
         setCardClick,
         specificAsset,
         setSpecificAsset,
-        assetStats,
-        setAssetStats,
         collectionFp,
         setCollectionFp,
         datePurchased,

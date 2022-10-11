@@ -7,6 +7,7 @@ import { findData, fetchSolanaPrice } from "../helpers/helpers.js";
 const Gallery = () => {
   const {
     walletTokens,
+    setWalletTokens,
     isLoading,
     cardClick,
     setCardClick,
@@ -123,6 +124,26 @@ const Gallery = () => {
         solPrice,
         solPriceToday,
       });
+
+      setWalletTokens((current) =>
+        current.map((obj) => {
+          console.log(obj);
+          if (obj["collection"] === collection) {
+            console.log("Update");
+            return {
+              ...obj,
+              fp: fp,
+              purchasePrice,
+              datePurchased: buyDate,
+              solPrice,
+              solPriceToday,
+            };
+          }
+          console.log(obj[collection]);
+          console.log(collection);
+          return obj;
+        })
+      );
     }
 
     if (cardClick === true) setSpecificAsset({});

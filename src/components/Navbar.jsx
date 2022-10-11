@@ -56,20 +56,6 @@ const Navbar = () => {
     }
   }, [screenSize]);
 
-  //use this syntax to update an object within state
-  const dummyFunc = () => {
-    setCollectionFp((current) =>
-      current.map((obj) => {
-        console.log(obj);
-        if (obj["collection"] === "wakuland") {
-          return { ...obj, fp: 500 };
-        }
-
-        return obj;
-      })
-    );
-  };
-
   return (
     <div className="flex justify-between p-2 md:mx-6 relative">
       <NavButton
@@ -80,7 +66,6 @@ const Navbar = () => {
       />
       <button onClick={() => console.log(collectionFp)}>collectionFp</button>
       <button onClick={() => console.log(walletTokens)}>walletTokens</button>
-      <button onClick={dummyFunc}>testClick</button>
 
       <div className="flex">
         <TooltipComponent content="Profile" position="BottomCenter">
