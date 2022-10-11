@@ -13,10 +13,6 @@ const Gallery = () => {
     setCardClick,
     setSpecificAsset,
     specificAsset,
-    collectionFp,
-    setCollectionFp,
-    datePurchased,
-    setDatePurchased,
   } = useStateContext();
 
   const handleNftClick = async (e) => {
