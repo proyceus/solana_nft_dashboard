@@ -38,6 +38,7 @@ const Navbar = () => {
     collectionFp,
     datePurchased,
     setCollectionFp,
+    walletTokens,
   } = useStateContext();
 
   useEffect(() => {
@@ -78,7 +79,7 @@ const Navbar = () => {
         icon={<AiOutlineMenu />}
       />
       <button onClick={() => console.log(collectionFp)}>collectionFp</button>
-      <button onClick={() => console.log(datePurchased)}>datePurchased</button>
+      <button onClick={() => console.log(walletTokens)}>walletTokens</button>
       <button onClick={dummyFunc}>testClick</button>
 
       <div className="flex">

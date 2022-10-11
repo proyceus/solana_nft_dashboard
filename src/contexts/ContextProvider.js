@@ -14,7 +14,6 @@ export const ContextProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [cardClick, setCardClick] = useState(false);
   const [specificAsset, setSpecificAsset] = useState({});
-  const [assetStats, setAssetStats] = useState();
   const [collectionFp, setCollectionFp] = useState([]);
   const [datePurchased, setDatePurchased] = useState([]);
 
