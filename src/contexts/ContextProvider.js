@@ -14,6 +14,7 @@ export const ContextProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [cardClick, setCardClick] = useState(false);
   const [specificAsset, setSpecificAsset] = useState({});
+  const [nftData, setNftData] = useState([]);
 
   return (
     <StateContext.Provider
@@ -34,6 +35,8 @@ export const ContextProvider = ({ children }) => {
         setCardClick,
         specificAsset,
         setSpecificAsset,
+        nftData,
+        setNftData,
       }}
     >
       {children}

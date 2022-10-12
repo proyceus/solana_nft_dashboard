@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   GridComponent,
   ColumnsDirective,
@@ -12,7 +12,7 @@ import { Header } from "../components";
 import { useStateContext } from "../contexts/ContextProvider";
 
 const ProfitLoss = () => {
-  const { walletTokens } = useStateContext();
+  const { walletTokens, setNftData, nftData } = useStateContext();
 
   const gridNftImage = (props) => (
     <div className="flex items-center gap-2">
@@ -72,17 +72,20 @@ const ProfitLoss = () => {
     },
   ];
 
-  const nftData = () => {
+  useEffect(() => {
     let x = [];
 
     for (let i = 0; i < walletTokens.length; i++) {
-      const Name = walletTokens[i].collectionName ?? "N/A";
+      const Name = walletTokens[i].name ?? "N/A";
       const PurchaseSOL = walletTokens[i].purchasePrice ?? "N/A";
       const CurrentFPSOL = walletTokens[i].fp ?? "N/A";
-      const ProfitLossSOL = CurrentFPSOL - PurchaseSOL ?? "N/A";
+      const ProfitLossSOL = (CurrentFPSOL - PurchaseSOL).toFixed(2) ?? "N/A";
       const PurchaseUSD = PurchaseSOL * walletTokens[i].solPrice ?? "N/A";
-      const CurrentFPUSD =
-        currentFPSOL * walletTokens[i].solPriceToday ?? "N/A";
+      const currentSolPrice =
+        walletTokens[i].solPriceToday === undefined
+          ? "N/A"
+          : Number(walletTokens[i].solPriceToday.slice(1)).toFixed(2);
+      const CurrentFPUSD = CurrentFPSOL * currentSolPrice ?? "N/A";
       const ProfitLossUSD = CurrentFPUSD - PurchaseUSD ?? "N/A";
       const nftImage = walletTokens[i].image ?? "N/A";
 
@@ -99,7 +102,9 @@ const ProfitLoss = () => {
 
       x.push(obj);
     }
-  };
+    setNftData(x);
+    console.log("data");
+  }, []);
 
   if (!walletTokens) {
     return <p>No data</p>;
