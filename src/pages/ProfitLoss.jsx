@@ -80,13 +80,17 @@ const ProfitLoss = () => {
       const PurchaseSOL = walletTokens[i].purchasePrice ?? "N/A";
       const CurrentFPSOL = walletTokens[i].fp ?? "N/A";
       const ProfitLossSOL = (CurrentFPSOL - PurchaseSOL).toFixed(2) ?? "N/A";
-      const PurchaseUSD = PurchaseSOL * walletTokens[i].solPrice ?? "N/A";
+      const purchasedSolPrice =
+        walletTokens[i].solPrice === undefined
+          ? "N/A"
+          : Number(walletTokens[i].solPrice.slice(1)).toFixed(2);
+      const PurchaseUSD = (PurchaseSOL * purchasedSolPrice).toFixed(2) ?? "N/A";
       const currentSolPrice =
         walletTokens[i].solPriceToday === undefined
           ? "N/A"
           : Number(walletTokens[i].solPriceToday.slice(1)).toFixed(2);
-      const CurrentFPUSD = CurrentFPSOL * currentSolPrice ?? "N/A";
-      const ProfitLossUSD = CurrentFPUSD - PurchaseUSD ?? "N/A";
+      const CurrentFPUSD = (CurrentFPSOL * currentSolPrice).toFixed(2) ?? "N/A";
+      const ProfitLossUSD = (CurrentFPUSD - PurchaseUSD).toFixed(2) ?? "N/A";
       const nftImage = walletTokens[i].image ?? "N/A";
 
       const obj = {
@@ -103,8 +107,7 @@ const ProfitLoss = () => {
       x.push(obj);
     }
     setNftData(x);
-    console.log("data");
-  }, []);
+  }, [walletTokens]);
 
   if (!walletTokens) {
     return <p>No data</p>;

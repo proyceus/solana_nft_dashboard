@@ -99,7 +99,7 @@ const Gallery = () => {
 
       setWalletTokens((current) =>
         current.map((obj) => {
-          if (obj["collection"] === collection) {
+          if (obj["name"] === name) {
             return {
               ...obj,
               fp: fp,
