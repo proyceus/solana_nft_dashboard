@@ -76,14 +76,15 @@ const ProfitLoss = () => {
     let x = [];
 
     for (let i = 0; i < walletTokens.length; i++) {
-      const Name = walletTokens[i].collectionName;
-      const PurchaseSOL = walletTokens[i].purchasePrice;
-      const CurrentFPSOL = walletTokens[i].fp;
-      const ProfitLossSOL = CurrentFPSOL - PurchaseSOL;
-      const PurchaseUSD = PurchaseSOL * walletTokens[i].solPrice;
-      const CurrentFPUSD = currentFPSOL * walletTokens[i].solPriceToday;
-      const ProfitLossUSD = CurrentFPUSD - PurchaseUSD;
-      const nftImage = walletTokens[i].image;
+      const Name = walletTokens[i].collectionName ?? "N/A";
+      const PurchaseSOL = walletTokens[i].purchasePrice ?? "N/A";
+      const CurrentFPSOL = walletTokens[i].fp ?? "N/A";
+      const ProfitLossSOL = CurrentFPSOL - PurchaseSOL ?? "N/A";
+      const PurchaseUSD = PurchaseSOL * walletTokens[i].solPrice ?? "N/A";
+      const CurrentFPUSD =
+        currentFPSOL * walletTokens[i].solPriceToday ?? "N/A";
+      const ProfitLossUSD = CurrentFPUSD - PurchaseUSD ?? "N/A";
+      const nftImage = walletTokens[i].image ?? "N/A";
 
       const obj = {
         Name,
