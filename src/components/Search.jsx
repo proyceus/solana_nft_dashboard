@@ -31,54 +31,6 @@ const Search = () => {
       .catch((err) => console.error("error:" + err));
   };
 
-  // const searchAssetStats = () => {
-  //   //bundle all asset names into an array
-  //   const collection = walletTokens.map((item) => item.collection);
-  //   let stats = [];
-
-  //   //loop over this array to get stats on each collection, set a timeout before each call
-  //   for (let i = 0; i < collection.length; i++) {
-  //     setTimeout(async () => {
-  //       //fetch info
-  //       await fetch(
-  //         `https://api-mainnet.magiceden.dev/v2/collections/${collection[i]}/stats`,
-  //         {
-  //           method: "GET",
-  //         }
-  //       )
-  //         .then((response) => response.json())
-  //         .then((data) => stats.push(data))
-  //         .catch((err) => console.error("error: ", err));
-  //     }, "5000");
-  //   }
-
-  //   setAssetStats(stats);
-  // };
-
-  // const filterStats = () => {
-  //   const uniqueCollections = [];
-
-  //   const filteredStats = assetStats.filter((element) => {
-  //     const isDuplicate = uniqueCollections.includes(element.symbol);
-
-  //     if (!isDuplicate) {
-  //       uniqueCollections.push(element.symbol);
-
-  //       return true;
-  //     }
-
-  //     return false;
-  //   });
-
-  //   setAssetStats(filteredStats);
-  // };
-
-  // useEffect(async () => {
-  //   if (walletTokens) {
-  //     await searchAssetStats().then(filterStats());
-  //   }
-  // }, [walletTokens]);
-
   return (
     <>
       <div className="mb-3 w-3/4 justify-center">
