@@ -21,6 +21,7 @@ export const findData = (stateToSearch, searchVariableType, assetAddress) => {
 };
 
 export const fetchSolanaPrice = async (givenDate) => {
+  console.log("Getting SOL Price");
   let date;
 
   if (givenDate === undefined) {

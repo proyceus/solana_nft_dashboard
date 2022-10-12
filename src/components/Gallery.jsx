@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useStateContext } from "../contexts/ContextProvider";
 import { Loading, NftCard } from ".";
 import moment from "moment";
 import { findData, fetchSolanaPrice } from "../helpers/helpers.js";
+
+let solPriceToday = undefined;
 
 const Gallery = () => {
   const {
@@ -14,6 +16,10 @@ const Gallery = () => {
     setSpecificAsset,
     specificAsset,
   } = useStateContext();
+
+  useEffect(async () => {
+    solPriceToday = await fetchSolanaPrice();
+  }, []);
 
   const handleNftClick = async (e) => {
     const image = e.target.dataset.image;
@@ -79,11 +85,10 @@ const Gallery = () => {
         }
       }
 
+      //start here
       if (buyDate !== undefined && buyDate !== "N/A") {
         solPrice = await fetchSolanaPrice(buyDate);
       }
-
-      const solPriceToday = await fetchSolanaPrice();
 
       setSpecificAsset({
         image: image,
