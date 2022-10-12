@@ -25,6 +25,18 @@ const ProfitLoss = () => {
     </div>
   );
 
+  const gridUsdProfit = (props) => (
+    <p className={props.ProfitLossUSD > 0 ? "text-lime-500" : "text-red-600"}>
+      {props.ProfitLossUSD}
+    </p>
+  );
+
+  const gridSolProfit = (props) => (
+    <p className={props.ProfitLossSOL > 0 ? "text-lime-500" : "text-red-600"}>
+      {props.ProfitLossSOL}
+    </p>
+  );
+
   const profitLossGrid = [
     {
       headerText: "NFT",
@@ -47,6 +59,7 @@ const ProfitLoss = () => {
     },
     {
       field: "ProfitLossSOL",
+      template: gridSolProfit,
       headerText: "P/L (SOL)",
       width: "120",
       textAlign: "Center",
@@ -66,6 +79,7 @@ const ProfitLoss = () => {
     },
     {
       field: "ProfitLossUSD",
+      template: gridUsdProfit,
       headerText: "P/L (USD)",
       width: "120",
       textAlign: "Center",
