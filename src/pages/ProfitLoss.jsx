@@ -25,14 +25,24 @@ const ProfitLoss = () => {
     </div>
   );
 
+  const textColorChange = (x) => {
+    if (x > 0) {
+      return "text-lime-500";
+    } else if (x < 0) {
+      return "text-red-600";
+    } else {
+      return "text-black";
+    }
+  };
+
   const gridUsdProfit = (props) => (
-    <p className={props.ProfitLossUSD > 0 ? "text-lime-500" : "text-red-600"}>
+    <p className={textColorChange(props.ProfitLossUSD)}>
       {props.ProfitLossUSD}
     </p>
   );
 
   const gridSolProfit = (props) => (
-    <p className={props.ProfitLossSOL > 0 ? "text-lime-500" : "text-red-600"}>
+    <p className={textColorChange(props.ProfitLossSOL)}>
       {props.ProfitLossSOL}
     </p>
   );
