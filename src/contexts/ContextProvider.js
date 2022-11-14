@@ -7,14 +7,16 @@ const initialState = {};
 
 export const ContextProvider = ({ children }) => {
   const [themeSettings, setThemeSettings] = useState(false);
-  const [activeMenu, setActiveMenu] = useState(true);
+  const [activeMenu, setActiveMenu] = useState(false);
   const [screenSize, setScreenSize] = useState(undefined);
-  const [walletAddress, setWalletAddress] = useState();
-  const [walletTokens, setWalletTokens] = useState();
+  const [walletAddress, setWalletAddress] = useState(null);
+  const [walletTokens, setWalletTokens] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [cardClick, setCardClick] = useState(false);
   const [specificAsset, setSpecificAsset] = useState({});
   const [nftData, setNftData] = useState([]);
+  const [solPriceToday, setSolPriceToday] = useState(0);
+  const [isConnected, setIsConnected] = useState(false);
 
   return (
     <StateContext.Provider
@@ -37,6 +39,10 @@ export const ContextProvider = ({ children }) => {
         setSpecificAsset,
         nftData,
         setNftData,
+        solPriceToday,
+        setSolPriceToday,
+        isConnected,
+        setIsConnected,
       }}
     >
       {children}

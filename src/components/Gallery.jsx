@@ -15,11 +15,8 @@ const Gallery = () => {
     setCardClick,
     setSpecificAsset,
     specificAsset,
+    solPriceToday,
   } = useStateContext();
-
-  useEffect(async () => {
-    solPriceToday = await fetchSolanaPrice();
-  }, []);
 
   const handleNftClick = async (e) => {
     const image = e.target.dataset.image;
