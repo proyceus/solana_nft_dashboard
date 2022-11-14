@@ -97,6 +97,6 @@ export const getTransactions = async (address) => {
       transactions.push(txObj);
     }
   }
-  console.log(accountBalances);
-  return accountBalances;
+  console.log(transactions);
+  return transactions;
 };

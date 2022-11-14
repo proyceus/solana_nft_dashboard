@@ -16,7 +16,7 @@ export const ContextProvider = ({ children }) => {
   const [specificAsset, setSpecificAsset] = useState({});
   const [nftData, setNftData] = useState([]);
   const [solPriceToday, setSolPriceToday] = useState(0);
-  const [isConnected, setIsConnected] = useState(false);
+  const [walletHistory, setWalletHistory] = useState([]);
 
   return (
     <StateContext.Provider
@@ -41,8 +41,8 @@ export const ContextProvider = ({ children }) => {
         setNftData,
         solPriceToday,
         setSolPriceToday,
-        isConnected,
-        setIsConnected,
+        walletHistory,
+        setWalletHistory,
       }}
     >
       {children}
