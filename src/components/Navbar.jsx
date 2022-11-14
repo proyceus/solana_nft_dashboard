@@ -72,7 +72,9 @@ const Navbar = () => {
       )}
       <button onClick={() => console.log(walletAddress)}>walletAddress</button>
       <button onClick={() => console.log(walletTokens)}>walletTokens</button>
-      <button onClick={getTransactions}>getTransactions</button>
+      <button onClick={() => getTransactions(walletAddress)}>
+        getTransactions
+      </button>
 
       <WalletMultiButton style={{ backgroundColor: "#833bbe" }} />
     </div>
