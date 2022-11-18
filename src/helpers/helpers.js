@@ -58,7 +58,7 @@ export const getTransactions = async (address) => {
   let transactions = [];
 
   for (let i = 0; i < 10; i++) {
-    let accountBalances = [];
+    let ownerAccountBalance;
     const transaction = await connection.getParsedTransaction(
       sigs[i].signature,
       {
@@ -73,15 +73,21 @@ export const getTransactions = async (address) => {
         i < transaction.transaction.message.accountKeys.length;
         i++
       ) {
-        const obj = {
-          address:
-            transaction.transaction.message.accountKeys[i].pubkey.toString(),
-          preBalance: transaction.meta.preBalances[i],
-          postBalance: transaction.meta.postBalances[i],
-          difference:
-            transaction.meta.postBalances[i] - transaction.meta.preBalances[i],
-        };
-        accountBalances.push(obj);
+        if (
+          transaction.transaction.message.accountKeys[i].pubkey.toString() ===
+          address
+        ) {
+          const preBalance = transaction.meta.preBalances[i] / 1000000000;
+          const postBalance = transaction.meta.postBalances[i] / 1000000000;
+          const obj = {
+            address:
+              transaction.transaction.message.accountKeys[i].pubkey.toString(),
+            preBalance,
+            postBalance,
+            difference: postBalance - preBalance,
+          };
+          ownerAccountBalance = obj;
+        }
       }
 
       const txObj = {
@@ -90,7 +96,7 @@ export const getTransactions = async (address) => {
         preTokenBalances: transaction.meta.preTokenBalances,
         blockTime: transaction.blockTime,
         link: `https://solscan.io/tx/${transaction.transaction.signatures[0]}`,
-        accountBalances,
+        ownerAccountBalance,
         transaction: transaction.meta.innerInstructions,
       };
 

@@ -43,6 +43,7 @@ const Navbar = () => {
     walletTokens,
     walletAddress,
     setWalletAddress,
+    walletHistory,
   } = useStateContext();
 
   const { connected } = useWallet();
@@ -71,7 +72,7 @@ const Navbar = () => {
         />
       )}
       <button onClick={() => console.log(walletAddress)}>walletAddress</button>
-      <button onClick={() => console.log(walletTokens)}>walletTokens</button>
+      <button onClick={() => console.log(walletHistory)}>walletHistory</button>
       <button onClick={() => getTransactions(walletAddress)}>
         getTransactions
       </button>
