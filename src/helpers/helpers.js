@@ -90,10 +90,44 @@ export const getTransactions = async (address) => {
         }
       }
 
+      //loop over post and pre balances to find owner wallet and place in new object
+      //NEED TO MAKE THESE INTO ARRAYS TO PUSH MULTIPLE DIFFERENCES IN
+      let preTokenBalance = {};
+      let postTokenBalance = {};
+
+      for (let i = 0; i < transaction.meta.postTokenBalances.length; i++) {
+        if (transaction.meta.postTokenBalances[i].owner === address) {
+          postTokenBalance = {
+            mintAddress: transaction.meta.postTokenBalances[i].mint,
+            owner: transaction.meta.postTokenBalances[i].owner,
+            postTokenBalance:
+              transaction.meta.postTokenBalances[i].uiTokenAmount.amount,
+          };
+        }
+      }
+
+      for (let i = 0; i < transaction.meta.preTokenBalances.length; i++) {
+        if (transaction.meta.preTokenBalances[i].owner === address) {
+          preTokenBalance = {
+            mintAddress: transaction.meta.preTokenBalances[i].mint,
+            owner: transaction.meta.preTokenBalances[i].owner,
+            preTokenBalance:
+              transaction.meta.preTokenBalances[i].uiTokenAmount.amount,
+          };
+        }
+      }
+
+      const tokenBalance = {
+        mintAddress: postTokenBalance.mintAddress,
+        owner: postTokenBalance.owner,
+        difference:
+          postTokenBalance.postTokenBalance / 1000000000 -
+          preTokenBalance.preTokenBalance / 1000000000,
+      };
+
       const txObj = {
         instructions: transaction.meta.innerInstructions[0].instructions,
-        postTokenBalances: transaction.meta.postTokenBalances,
-        preTokenBalances: transaction.meta.preTokenBalances,
+        tokenBalance,
         blockTime: transaction.blockTime,
         link: `https://solscan.io/tx/${transaction.transaction.signatures[0]}`,
         ownerAccountBalance,
