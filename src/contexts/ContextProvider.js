@@ -17,6 +17,7 @@ export const ContextProvider = ({ children }) => {
   const [nftData, setNftData] = useState([]);
   const [solPriceToday, setSolPriceToday] = useState(0);
   const [walletHistory, setWalletHistory] = useState([]);
+  const [walletHistoryLogs, setWalletHistoryLogs] = useState([]);
 
   return (
     <StateContext.Provider
@@ -43,6 +44,8 @@ export const ContextProvider = ({ children }) => {
         setSolPriceToday,
         walletHistory,
         setWalletHistory,
+        walletHistoryLogs,
+        setWalletHistoryLogs,
       }}
     >
       {children}

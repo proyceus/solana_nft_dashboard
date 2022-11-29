@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { getTransactions } from "../helpers/helpers";
+import { getTransactions, filterTransactions } from "../helpers/helpers";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { useStateContext } from "../contexts/ContextProvider";
 import Loading from "../components/Loading";
@@ -12,6 +12,8 @@ const History = () => {
     walletAddress,
     isLoading,
     setIsLoading,
+    walletHistoryLogs,
+    setWalletHistoryLogs,
   } = useStateContext();
 
   let accountBalanceByAddress;
@@ -52,16 +54,46 @@ const History = () => {
       >
         Click
       </button>
+      <button
+        onClick={async () => {
+          setIsLoading(true);
+          const tx = await filterTransactions(walletHistory);
+          setWalletHistoryLogs((prevState) => [...prevState, ...tx]);
+          setIsLoading(false);
+        }}
+      >
+        Click 2
+      </button>
+      <button
+        onClick={() => {
+          console.log(walletHistoryLogs);
+        }}
+      >
+        Click 3
+      </button>
       {isLoading && <Loading />}
-      {/* <ul>
-        {walletHistory.map((item) => (
-          <li>
-            Transferred {item.postTokenBalances[0].mint} to{" "}
-            {item.postTokenBalances[0].owner} for{" "}
-            {accountBalanceByAddress[0].difference / 1000000000}
+      <ul>
+        {walletHistoryLogs.map((item, index) => (
+          <li key={index} className="list-disc">
+            {item.date}
+            {" - "}
+            {item.type}{" "}
+            <a
+              href={`https://solscan.io/token/${item.item}`}
+              target="_blank"
+              className="underline"
+            >
+              {item.item}
+            </a>{" "}
+            {item.difference !== "n/a" &&
+              `for ${item.difference.toFixed(3)} SOL`}
+            {" - "}
+            <a href={item.link} target="_blank" className="underline">
+              Transaction Link
+            </a>
           </li>
         ))}
-      </ul> */}
+      </ul>
     </div>
   );
 };

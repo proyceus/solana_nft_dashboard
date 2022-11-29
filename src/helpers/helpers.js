@@ -147,3 +147,85 @@ export const getTransactions = async (address, rpc) => {
   console.log(transactions);
   return transactions;
 };
+
+export const filterTransactions = (transactions) => {
+  const magicedenAddress = "1BWutmTvYPwDtmw9abTkS4Ssr8no61spGAvW1X6NDix";
+  const logsArray = [];
+  for (let j = 0; j < transactions.length; j++) {
+    //preTokenBalance filtering
+    for (
+      let i = 0;
+      i < transactions[j].tokenBalance.preTokenBalance.length;
+      i++
+    ) {
+      //check to see if preTokenBalances exist - if not then nothing was sent in transaction
+      if (transactions[j].tokenBalance.preTokenBalance[i] !== undefined) {
+        if (
+          transactions[j].tokenBalance.preTokenBalance[i].preTokenBalance ===
+          "1"
+        ) {
+          const date = new Date(transactions[j].blockTime * 1000);
+          //create object so that frontend can build sentences based on data
+          const txObj = {
+            type:
+              transactions[j].tokenBalance.preTokenBalance[i].owner ===
+              magicedenAddress
+                ? "Sold"
+                : "Sent",
+            item: transactions[j].tokenBalance.preTokenBalance[i].mintAddress,
+            link: transactions[j].link,
+            difference:
+              transactions[j].ownerAccountBalance.difference > 0.01
+                ? transactions[j].ownerAccountBalance.difference
+                : "n/a",
+            date: date.toUTCString(),
+          };
+          logsArray.push(txObj);
+        } else {
+          console.log("no nfts sent");
+        }
+      } else {
+        console.log("no nfts sent");
+      }
+    }
+
+    //postTokenBalance filtering
+    for (
+      let i = 0;
+      i < transactions[j].tokenBalance.postTokenBalance.length;
+      i++
+    ) {
+      //check to see if postTokenBalances exist - if not then nothing was received during the transaction
+      if (transactions[j].tokenBalance.postTokenBalance[i] !== undefined) {
+        if (
+          transactions[j].tokenBalance.postTokenBalance[i].postTokenBalance ===
+          "1"
+        ) {
+          const date = new Date(transactions[j].blockTime * 1000);
+          const txObj = {
+            type:
+              transactions[j].tokenBalance.postTokenBalance[i].owner ===
+              magicedenAddress
+                ? "Bought"
+                : "Received",
+            item: transactions[j].tokenBalance.postTokenBalance[i].mintAddress,
+            link: transactions[j].link,
+            difference:
+              transactions[j].ownerAccountBalance.difference > 0.01
+                ? transactions[j].ownerAccountBalance.difference
+                : "n/a",
+            date: date.toUTCString(),
+          };
+          logsArray.push(txObj);
+        } else {
+          console.log("no nft received");
+        }
+      } else {
+        console.log("no nft received");
+      }
+    }
+  }
+
+  console.log(logsArray);
+  return logsArray;
+};
