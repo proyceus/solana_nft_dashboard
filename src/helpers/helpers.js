@@ -43,13 +43,10 @@ export const fetchSolanaPrice = async (givenDate) => {
   return `$${price.market_data.current_price.usd.toFixed(2)}`;
 };
 
-export const getTransactions = async (address) => {
+export const getTransactions = async (address, rpc) => {
   const web3 = require("@solana/web3.js");
 
-  const connection = new web3.Connection(
-    web3.clusterApiUrl("mainnet-beta"),
-    "confirmed"
-  );
+  const connection = new web3.Connection(rpc);
 
   const publicKey = new web3.PublicKey(address);
 
@@ -92,37 +89,47 @@ export const getTransactions = async (address) => {
 
       //loop over post and pre balances to find owner wallet and place in new object
       //NEED TO MAKE THESE INTO ARRAYS TO PUSH MULTIPLE DIFFERENCES IN
-      let preTokenBalance = {};
-      let postTokenBalance = {};
+      let preTokenBalance = [];
+      let postTokenBalance = [];
 
       for (let i = 0; i < transaction.meta.postTokenBalances.length; i++) {
-        if (transaction.meta.postTokenBalances[i].owner === address) {
-          postTokenBalance = {
+        if (
+          transaction.meta.postTokenBalances[i].owner === address ||
+          transaction.meta.postTokenBalances[i].owner ===
+            "1BWutmTvYPwDtmw9abTkS4Ssr8no61spGAvW1X6NDix"
+        ) {
+          postTokenBalance.push({
             mintAddress: transaction.meta.postTokenBalances[i].mint,
             owner: transaction.meta.postTokenBalances[i].owner,
             postTokenBalance:
               transaction.meta.postTokenBalances[i].uiTokenAmount.amount,
-          };
+          });
         }
       }
 
       for (let i = 0; i < transaction.meta.preTokenBalances.length; i++) {
-        if (transaction.meta.preTokenBalances[i].owner === address) {
-          preTokenBalance = {
+        if (
+          transaction.meta.preTokenBalances[i].owner === address ||
+          transaction.meta.preTokenBalances[i].owner ===
+            "1BWutmTvYPwDtmw9abTkS4Ssr8no61spGAvW1X6NDix"
+        ) {
+          preTokenBalance.push({
             mintAddress: transaction.meta.preTokenBalances[i].mint,
             owner: transaction.meta.preTokenBalances[i].owner,
             preTokenBalance:
               transaction.meta.preTokenBalances[i].uiTokenAmount.amount,
-          };
+          });
         }
       }
 
       const tokenBalance = {
-        mintAddress: postTokenBalance.mintAddress,
-        owner: postTokenBalance.owner,
-        difference:
-          postTokenBalance.postTokenBalance / 1000000000 -
-          preTokenBalance.preTokenBalance / 1000000000,
+        // mintAddress: postTokenBalance.mintAddress,
+        // owner: postTokenBalance.owner,
+        // // difference:
+        // //   postTokenBalance.postTokenBalance / 1000000000 -
+        // //   preTokenBalance.preTokenBalance / 1000000000,
+        preTokenBalance,
+        postTokenBalance,
       };
 
       const txObj = {

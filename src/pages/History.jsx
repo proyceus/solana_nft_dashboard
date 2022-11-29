@@ -42,7 +42,10 @@ const History = () => {
       <button
         onClick={async () => {
           setIsLoading(true);
-          const tx = await getTransactions(walletAddress);
+          const tx = await getTransactions(
+            walletAddress,
+            process.env.REACT_APP_RPC_URL
+          );
           setWalletHistory(tx);
           setIsLoading(false);
         }}
