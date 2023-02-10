@@ -30,59 +30,6 @@ const Gallery = () => {
     let solPrice = "";
 
     if (cardClick === false) {
-      if (!findData(walletTokens, "fp", address)) {
-        fp = await fetch(
-          `https://api-mainnet.magiceden.dev/v2/collections/${collection}/stats`,
-          {
-            method: "GET",
-          }
-        )
-          .then((response) => response.json())
-          .then((data) => {
-            return data.floorPrice / 1000000000;
-          })
-          .catch((err) => console.error("error: ", err));
-      } else {
-        for (let i = 0; i < walletTokens.length; i++) {
-          if (walletTokens[i]["collection"] === collection) {
-            fp = walletTokens[i].fp;
-            break;
-          }
-        }
-      }
-
-      if (!findData(walletTokens, "purchasePrice", address)) {
-        purchasePrice = await fetch(
-          `https://api-mainnet.magiceden.dev/v2/tokens/${address}/activities?offset=0&limit=500`,
-          {
-            method: "GET",
-          }
-        )
-          .then((response) => response.json())
-          .then((data) => {
-            for (let i = 0; i < data.length; i++) {
-              if (data[i].type === "buyNow") {
-                buyDate = moment.unix(data[i].blockTime).format("MM/DD/YYYY");
-
-                return data[i].price;
-              }
-            }
-
-            buyDate = "N/A";
-
-            return "N/A";
-          });
-      } else {
-        for (let i = 0; i < walletTokens.length; i++) {
-          if (walletTokens[i]["mintAddress"] === address) {
-            purchasePrice = walletTokens[i].purchasePrice;
-            buyDate = walletTokens[i].datePurchased;
-            break;
-          }
-        }
-      }
-
-      //start here
       if (buyDate !== undefined && buyDate !== "N/A") {
         solPrice = await fetchSolanaPrice(buyDate);
       }

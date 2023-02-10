@@ -138,6 +138,7 @@ const ProfitLoss = () => {
   }
   return (
     <div className="m-2 md:m-10 p-2 md:p-10 bg-white rounded-3xl">
+      {/* <button onClick={loadData}>Load Data</button> */}
       <Header category="Page" title="ProfitLoss" />
       <GridComponent
         id="gridcomp"
