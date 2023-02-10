@@ -232,6 +232,7 @@ export const filterTransactions = (transactions) => {
 
 //fetches activity for individual nft and then puts it into an object that can be accessed
 export const fetchIndividualNFTActivity = async (nftAddress) => {
+  let response;
   const nftActivity = await fetch(
     `https://api-mainnet.magiceden.dev/v2/tokens/${nftAddress}/activities?offset=0&limit=100`,
     {
@@ -244,9 +245,10 @@ export const fetchIndividualNFTActivity = async (nftAddress) => {
   const mostRecentBuy = () => {
     for (let i = 0; i < nftActivity.length; i++) {
       if (nftActivity[i].type === "buyNow") {
-        return nftActivity[i];
+        response = nftActivity[i];
+        break;
       } else {
-        return 0;
+        response = "none found";
       }
     }
   };
