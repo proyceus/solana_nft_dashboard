@@ -245,12 +245,11 @@ export const fetchIndividualNFTActivity = async (nftAddress) => {
     for (let i = 0; i < nftActivity.length; i++) {
       if (nftActivity[i].type === "buyNow") {
         return nftActivity[i];
-        break;
       } else {
         return 0;
       }
     }
   };
 
-  console.log(mostRecentBuy);
+  console.log(mostRecentBuy());
 };
