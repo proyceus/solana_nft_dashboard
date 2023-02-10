@@ -251,5 +251,5 @@ export const fetchIndividualNFTActivity = async (nftAddress) => {
     }
   }
 
-  console.log(response);
+  return response;
 };
