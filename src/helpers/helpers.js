@@ -255,6 +255,16 @@ export const fetchIndividualNFTActivity = async (nftAddress) => {
 };
 
 const findTokenInfo = async (walletTokens, address) => {
+  const image = e.target.dataset.image;
+  const name = e.target.dataset.name;
+  const link = e.target.dataset.link;
+  const collection = e.target.dataset.collection;
+  const address = e.target.dataset.address;
+  let fp;
+  let purchasePrice;
+  let buyDate = undefined;
+  let solPrice = "";
+
   const obj = {
     image: image,
     name: name,

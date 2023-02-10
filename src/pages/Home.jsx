@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { Search } from "../components";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { useStateContext } from "../contexts/ContextProvider";
-import { fetchSolanaPrice } from "../helpers/helpers.js";
+import { fetchSolanaPrice, findData } from "../helpers/helpers.js";
 
 const Home = () => {
   const {
@@ -38,6 +38,10 @@ const Home = () => {
       }
     }
   }, [walletAddress]);
+
+  useEffect(() => {
+    
+  })
 
   const searchAddress = async () => {
     setIsLoading(true);

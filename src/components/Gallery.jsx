@@ -19,21 +19,7 @@ const Gallery = () => {
   } = useStateContext();
 
   const handleNftClick = async (e) => {
-    const image = e.target.dataset.image;
-    const name = e.target.dataset.name;
-    const link = e.target.dataset.link;
-    const collection = e.target.dataset.collection;
-    const address = e.target.dataset.address;
-    let fp;
-    let purchasePrice;
-    let buyDate = undefined;
-    let solPrice = "";
-
     if (cardClick === false) {
-      if (buyDate !== undefined && buyDate !== "N/A") {
-        solPrice = await fetchSolanaPrice(buyDate);
-      }
-
       setSpecificAsset({
         image: image,
         name: name,
