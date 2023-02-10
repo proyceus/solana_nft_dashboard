@@ -229,3 +229,15 @@ export const filterTransactions = (transactions) => {
   console.log(logsArray);
   return logsArray;
 };
+
+//fetches activity for individual nft and then puts it into an object that can be accessed
+export const fetchIndividualNFTActivity = async (nftAddress) => {
+  const nftActivity = await fetch(
+    `api-devnet.magiceden.dev/v2/tokens/${nftAddress}/activities?offset=0&limit=100`,
+    {
+      method: "GET",
+    }
+  ).then((response) => response.json());
+
+  console.log(nftActivity);
+};

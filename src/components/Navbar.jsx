@@ -6,7 +6,10 @@ import { RiNotification3Line } from "react-icons/ri";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { TooltipComponent } from "@syncfusion/ej2-react-popups";
 import { useStateContext } from "../contexts/ContextProvider";
-import { getTransactions } from "../helpers/helpers.js";
+import {
+  getTransactions,
+  fetchIndividualNFTActivity,
+} from "../helpers/helpers.js";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 import { useWallet } from "@solana/wallet-adapter-react";
 
@@ -75,6 +78,15 @@ const Navbar = () => {
       <button onClick={() => console.log(walletHistory)}>walletHistory</button>
       <button onClick={() => getTransactions(walletAddress)}>
         getTransactions
+      </button>
+      <button
+        onClick={() =>
+          fetchIndividualNFTActivity(
+            "13moCqotNovABkQ1rCEHZ4cMNoiTaBUUF9DcuVaf5LJE"
+          )
+        }
+      >
+        getActivity
       </button>
 
       <WalletMultiButton style={{ backgroundColor: "#833bbe" }} />
