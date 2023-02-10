@@ -242,16 +242,14 @@ export const fetchIndividualNFTActivity = async (nftAddress) => {
 
   console.log(nftActivity);
   //loop over array and find the most recent buyNow to be returned
-  const mostRecentBuy = () => {
-    for (let i = 0; i < nftActivity.length; i++) {
-      if (nftActivity[i].type === "buyNow") {
-        response = nftActivity[i];
-        break;
-      } else {
-        response = "none found";
-      }
+  for (let i = 0; i < nftActivity.length; i++) {
+    if (nftActivity[i].type === "buyNow") {
+      response = nftActivity[i];
+      break;
+    } else {
+      response = "none found";
     }
-  };
+  }
 
-  console.log(mostRecentBuy());
+  console.log(response);
 };
