@@ -297,36 +297,35 @@ export const findTokenInfo = async (walletTokens) => {
     let buyDate = undefined;
     let solPrice = "";
 
-    setTimeout(async () => {
-      //check to see if there is a FP for the collection, if not then fetch it
-      if (!findData(walletTokens, "fp", address)) {
-        fp = await fetch("https://http-cors-proxy.p.rapidapi.com/", {
-          method: "POST",
-          headers: {
-            "content-type": "application/json",
-            Origin: "www.example.com",
-            "X-Requested-With": "www.example.com",
-            "X-RapidAPI-Key":
-              "9cc19cd5f7msh1cc5823a4b19e61p12a9aajsnd33f7684b55e",
-            "X-RapidAPI-Host": "http-cors-proxy.p.rapidapi.com",
-          },
-          body: `{"url":"https://api-mainnet.magiceden.dev/v2/collections/${collection}/stats","method":"GET","headers":{"Content-type":"application/json; charset=UTF-8"}}`,
+    //check to see if there is a FP for the collection, if not then fetch it
+    if (!findData(walletTokens, "fp", address)) {
+      fp = await fetch("https://http-cors-proxy.p.rapidapi.com/", {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+          Origin: "www.example.com",
+          "X-Requested-With": "www.example.com",
+          "X-RapidAPI-Key":
+            "9cc19cd5f7msh1cc5823a4b19e61p12a9aajsnd33f7684b55e",
+          "X-RapidAPI-Host": "http-cors-proxy.p.rapidapi.com",
+        },
+        body: `{"url":"https://api-mainnet.magiceden.dev/v2/collections/${collection}/stats","method":"GET","headers":{"Content-type":"application/json; charset=UTF-8"}}`,
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          return data.floorPrice / 1000000000;
         })
-          .then((response) => response.json())
-          .then((data) => {
-            return data.floorPrice / 1000000000;
-          })
-          .catch((err) => console.error("error: ", err));
-      } else {
-        for (let i = 0; i < walletTokens.length; i++) {
-          if (walletTokens[i]["collection"] === collection) {
-            fp = walletTokens[i].fp;
-            break;
-          }
+        .catch((err) => console.error("error: ", err));
+    } else {
+      for (let i = 0; i < walletTokens.length; i++) {
+        if (walletTokens[i]["collection"] === collection) {
+          fp = walletTokens[i].fp;
+          break;
         }
       }
+    }
 
-      /*
+    /*
       //if token does not have purchaseprice and buydate then fetch it
       if (!findData(walletTokens, "purchasePrice", address)) {
         purchasePrice = await fetch(
@@ -359,7 +358,6 @@ export const findTokenInfo = async (walletTokens) => {
         }
       }
       */
-    }, 1000);
 
     //fetch the SOL price on the day the asset was purchased
     if (buyDate !== undefined && buyDate !== "N/A") {
