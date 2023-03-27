@@ -76,7 +76,7 @@ const Navbar = () => {
         />
       )}
       <button onClick={() => findTokenInfo(walletTokens)}>tokenInfo</button>
-      <button onClick={() => console.log(walletHistory)}>walletHistory</button>
+      <button onClick={() => console.log(walletTokens)}>walletTokens</button>
       <button onClick={() => getTransactions(walletAddress)}>
         getTransactions
       </button>

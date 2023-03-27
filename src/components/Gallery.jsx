@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { useStateContext } from "../contexts/ContextProvider";
 import { Loading, NftCard } from ".";
-import moment from "moment";
 import { findData, fetchSolanaPrice } from "../helpers/helpers.js";
 
 let solPriceToday = undefined;

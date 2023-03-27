@@ -2,7 +2,11 @@ import { useEffect } from "react";
 import { Search } from "../components";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { useStateContext } from "../contexts/ContextProvider";
-import { fetchSolanaPrice, findData } from "../helpers/helpers.js";
+import {
+  fetchSolanaPrice,
+  findData,
+  findTokenInfo,
+} from "../helpers/helpers.js";
 
 const Home = () => {
   const {
@@ -25,10 +29,13 @@ const Home = () => {
       console.log("set");
     }
 
+    // commenting out until cors policy is fixed
+    /*
     if (solPriceToday === 0 && walletAdapter.connected) {
       const price = fetchSolanaPrice();
       setSolPriceToday(price);
     }
+    */
   }, [walletAdapter.connected]);
 
   useEffect(() => {
@@ -38,9 +45,6 @@ const Home = () => {
       }
     }
   }, [walletAddress]);
-
-  //once searchAddress is finished, then run more detailed info grab
-  useEffect(() => {}, [walletTokens]);
 
   const searchAddress = async () => {
     setIsLoading(true);
@@ -54,8 +58,7 @@ const Home = () => {
     )
       .then((response) => response.json())
       .then((tokens) => {
-        setWalletTokens(tokens);
-        console.log(tokens);
+        setWalletTokens(findTokenInfo(tokens));
         setIsLoading(false);
       })
       .catch((err) => console.error("error:" + err));

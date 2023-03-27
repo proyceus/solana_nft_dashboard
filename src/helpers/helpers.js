@@ -1,3 +1,5 @@
+import moment from "moment";
+
 export const findData = (stateToSearch, searchVariableType, assetAddress) => {
   for (let i = 0; i < stateToSearch.length; i++) {
     if (stateToSearch[i]["mintAddress"] === assetAddress) {
@@ -260,7 +262,7 @@ export const findTokenInfo = async (walletTokens) => {
   let allTokensInfo = [];
 
   //filter through walletTokens to grab all necessary data from each NFT - will limit to only 10 NFTs for now
-  for (let i = 0; i < walletTokens.length; i++) {
+  for (let i = 0; i < 1; i++) {
     let image = walletTokens[i].image;
     let name = walletTokens[i].name;
     let link = `https://magiceden.io/item-details/${walletTokens[i].mintAddress}`;
@@ -271,20 +273,7 @@ export const findTokenInfo = async (walletTokens) => {
     let buyDate = undefined;
     let solPrice = "";
 
-    const obj = {
-      image,
-      name,
-      link,
-      collection,
-      address,
-      floorPrice: fp,
-      purchasePrice: purchasePrice,
-      datePurchased: buyDate,
-      solPrice,
-      //hardcode for now as CoinGecko API is being weird today
-      solPriceToday: "$24",
-    };
-
+    /*
     setTimeout(async () => {
       //check to see if there is a FP for the collection, if not then fetch it
       if (!findData(walletTokens, "fp", address)) {
@@ -345,10 +334,26 @@ export const findTokenInfo = async (walletTokens) => {
         solPrice = await fetchSolanaPrice(buyDate);
       }
     }, 1000);
+    */
+
+    const obj = {
+      image,
+      name,
+      link,
+      collection,
+      address,
+      floorPrice: fp,
+      purchasePrice: purchasePrice,
+      datePurchased: buyDate,
+      solPrice,
+      //hardcode for now as CoinGecko API is being weird today
+      solPriceToday: "$24",
+    };
 
     //push object to tokensInfo array
     allTokensInfo.push(obj);
   }
 
   console.log(allTokensInfo);
+  return allTokensInfo;
 };
