@@ -286,7 +286,7 @@ export const findTokenInfo = async (walletTokens) => {
     .then((obj) => obj.solana.usd);
 
   //filter through walletTokens to grab all necessary data from each NFT - will limit to only 10 NFTs for now
-  for (let i = 0; i < walletTokens.length; i++) {
+  for (let i = 0; i < 1; i++) {
     let image = walletTokens[i].image;
     let name = walletTokens[i].name;
     let link = `https://magiceden.io/item-details/${walletTokens[i].mintAddress}`;
