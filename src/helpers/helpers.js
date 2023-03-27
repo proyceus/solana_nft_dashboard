@@ -35,11 +35,22 @@ export const fetchSolanaPrice = async (givenDate) => {
     date.getMonth() + 1
   }-${date.getFullYear()}`;
 
+  //using RapidAPI for local CORS proxy
+  const options = {
+    method: "POST",
+    headers: {
+      "content-type": "application/json",
+      Origin: "www.example.com",
+      "X-Requested-With": "www.example.com",
+      "X-RapidAPI-Key": "9cc19cd5f7msh1cc5823a4b19e61p12a9aajsnd33f7684b55e",
+      "X-RapidAPI-Host": "http-cors-proxy.p.rapidapi.com",
+    },
+    body: `{"url":"https://api.coingecko.com/api/v3/coins/solana/history?date=${dateString}","method":"GET","headers":{"Content-type":"application/json; charset=UTF-8"}}`,
+  };
+
   const price = await fetch(
-    `https://api.coingecko.com/api/v3/coins/solana/history?date=${dateString}`,
-    {
-      method: "GET",
-    }
+    "https://http-cors-proxy.p.rapidapi.com/",
+    options
   ).then((response) => response.json());
 
   return `$${price.market_data.current_price.usd.toFixed(2)}`;
@@ -260,6 +271,19 @@ export const fetchIndividualNFTActivity = async (nftAddress) => {
 // so need to find a more optimized solution in the future
 export const findTokenInfo = async (walletTokens) => {
   let allTokensInfo = [];
+  const solPriceToday = await fetch("https://http-cors-proxy.p.rapidapi.com/", {
+    method: "POST",
+    headers: {
+      "content-type": "application/json",
+      Origin: "www.example.com",
+      "X-Requested-With": "www.example.com",
+      "X-RapidAPI-Key": "9cc19cd5f7msh1cc5823a4b19e61p12a9aajsnd33f7684b55e",
+      "X-RapidAPI-Host": "http-cors-proxy.p.rapidapi.com",
+    },
+    body: `{"url":"https://api.coingecko.com/api/v3/simple/price?ids=solana&vs_currencies=usd","method":"GET","headers":{"Content-type":"application/json; charset=UTF-8"}}`,
+  })
+    .then((response) => response.json())
+    .then((obj) => obj.solana.usd);
 
   //filter through walletTokens to grab all necessary data from each NFT - will limit to only 10 NFTs for now
   for (let i = 0; i < walletTokens.length; i++) {
@@ -273,7 +297,6 @@ export const findTokenInfo = async (walletTokens) => {
     let buyDate = undefined;
     let solPrice = "";
 
-    /*
     setTimeout(async () => {
       //check to see if there is a FP for the collection, if not then fetch it
       if (!findData(walletTokens, "fp", address)) {
@@ -328,13 +351,12 @@ export const findTokenInfo = async (walletTokens) => {
           }
         }
       }
-
-      //fetch the SOL price on the day the asset was purchased
-      if (buyDate !== undefined && buyDate !== "N/A") {
-        solPrice = await fetchSolanaPrice(buyDate);
-      }
     }, 1000);
-    */
+
+    //fetch the SOL price on the day the asset was purchased
+    if (buyDate !== undefined && buyDate !== "N/A") {
+      solPrice = await fetchSolanaPrice(buyDate);
+    }
 
     const obj = {
       image,
@@ -347,7 +369,7 @@ export const findTokenInfo = async (walletTokens) => {
       datePurchased: buyDate,
       solPrice,
       //hardcode for now as CoinGecko API is being weird today
-      solPriceToday: "$24",
+      solPriceToday,
     };
 
     //push object to tokensInfo array
