@@ -300,12 +300,18 @@ export const findTokenInfo = async (walletTokens) => {
     setTimeout(async () => {
       //check to see if there is a FP for the collection, if not then fetch it
       if (!findData(walletTokens, "fp", address)) {
-        fp = await fetch(
-          `https://api-mainnet.magiceden.dev/v2/collections/${collection}/stats`,
-          {
-            method: "GET",
-          }
-        )
+        fp = await fetch("https://http-cors-proxy.p.rapidapi.com/", {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+            Origin: "www.example.com",
+            "X-Requested-With": "www.example.com",
+            "X-RapidAPI-Key":
+              "9cc19cd5f7msh1cc5823a4b19e61p12a9aajsnd33f7684b55e",
+            "X-RapidAPI-Host": "http-cors-proxy.p.rapidapi.com",
+          },
+          body: `{"url":"https://api-mainnet.magiceden.dev/v2/collections/${collection}/stats","method":"GET","headers":{"Content-type":"application/json; charset=UTF-8"}}`,
+        })
           .then((response) => response.json())
           .then((data) => {
             return data.floorPrice / 1000000000;
