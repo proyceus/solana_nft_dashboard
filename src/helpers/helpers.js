@@ -309,13 +309,13 @@ export const findTokenInfo = async (walletTokens) => {
             "9cc19cd5f7msh1cc5823a4b19e61p12a9aajsnd33f7684b55e",
           "X-RapidAPI-Host": "http-cors-proxy.p.rapidapi.com",
         },
-        body: `{"url":"https://api-mainnet.magiceden.dev/v2/collections/${collection}/stats","method":"GET","headers":{"Content-type":"application/json; charset=UTF-8"}}`,
+        body: `{"url":"https://api-mainnet.magiceden.dev/v2/collections/${collection}/stats","method":"GET",}`,
       })
         .then((response) => response.json())
         .then((data) => {
           return data.floorPrice / 1000000000;
-        })
-        .catch((err) => console.error("error: ", err));
+        });
+      console.log(fp);
     } else {
       for (let i = 0; i < walletTokens.length; i++) {
         if (walletTokens[i]["collection"] === collection) {
