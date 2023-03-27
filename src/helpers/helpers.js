@@ -320,6 +320,7 @@ export const findTokenInfo = async (walletTokens) => {
         }
       }
 
+      /*
       //if token does not have purchaseprice and buydate then fetch it
       if (!findData(walletTokens, "purchasePrice", address)) {
         purchasePrice = await fetch(
@@ -351,6 +352,7 @@ export const findTokenInfo = async (walletTokens) => {
           }
         }
       }
+      */
     }, 1000);
 
     //fetch the SOL price on the day the asset was purchased
