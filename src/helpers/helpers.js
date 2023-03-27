@@ -254,7 +254,9 @@ export const fetchIndividualNFTActivity = async (nftAddress) => {
   return response;
 };
 
-const findTokenInfo = async (walletTokens) => {
+// go through wallettokens and get main information on each token - this function will take awhile to complete at higher NFT numbers
+// so need to find a more optimized solution in the future
+export const findTokenInfo = async (walletTokens) => {
   let allTokensInfo = [];
 
   //filter through walletTokens to grab all necessary data from each NFT - will limit to only 10 NFTs for now
@@ -303,42 +305,47 @@ const findTokenInfo = async (walletTokens) => {
         }
       }
     }
-  }
 
-  if (!findData(walletTokens, "purchasePrice", address)) {
-    purchasePrice = await fetch(
-      `https://api-mainnet.magiceden.dev/v2/tokens/${address}/activities?offset=0&limit=500`,
-      {
-        method: "GET",
-      }
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        for (let i = 0; i < data.length; i++) {
-          if (data[i].type === "buyNow") {
-            buyDate = moment.unix(data[i].blockTime).format("MM/DD/YYYY");
-
-            return data[i].price;
-          }
+    //if token does not have purchaseprice and buydate then fetch it
+    if (!findData(walletTokens, "purchasePrice", address)) {
+      purchasePrice = await fetch(
+        `https://api-mainnet.magiceden.dev/v2/tokens/${address}/activities?offset=0&limit=500`,
+        {
+          method: "GET",
         }
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          for (let i = 0; i < data.length; i++) {
+            if (data[i].type === "buyNow") {
+              buyDate = moment.unix(data[i].blockTime).format("MM/DD/YYYY");
 
-        buyDate = "N/A";
+              return data[i].price;
+            }
+          }
 
-        return "N/A";
-      });
-  } else {
-    for (let i = 0; i < walletTokens.length; i++) {
-      if (walletTokens[i]["mintAddress"] === address) {
-        purchasePrice = walletTokens[i].purchasePrice;
-        buyDate = walletTokens[i].datePurchased;
-        break;
+          buyDate = "N/A";
+
+          return "N/A";
+        });
+    } else {
+      for (let i = 0; i < walletTokens.length; i++) {
+        if (walletTokens[i]["mintAddress"] === address) {
+          purchasePrice = walletTokens[i].purchasePrice;
+          buyDate = walletTokens[i].datePurchased;
+          break;
+        }
       }
     }
+
+    //fetch the SOL price on the day the asset was purchased
+    if (buyDate !== undefined && buyDate !== "N/A") {
+      solPrice = await fetchSolanaPrice(buyDate);
+    }
+
+    //push object to tokensInfo array
+    allTokensInfo.push(obj);
   }
 
-  if (buyDate !== undefined && buyDate !== "N/A") {
-    solPrice = await fetchSolanaPrice(buyDate);
-  }
-
-  console.log(tokensInfo);
+  console.log(allTokensInfo);
 };
