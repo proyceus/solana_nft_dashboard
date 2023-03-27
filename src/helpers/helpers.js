@@ -254,46 +254,53 @@ export const fetchIndividualNFTActivity = async (nftAddress) => {
   return response;
 };
 
-const findTokenInfo = async (walletTokens, address) => {
-  const image = e.target.dataset.image;
-  const name = e.target.dataset.name;
-  const link = e.target.dataset.link;
-  const collection = e.target.dataset.collection;
-  const address = e.target.dataset.address;
-  let fp;
-  let purchasePrice;
-  let buyDate = undefined;
-  let solPrice = "";
+const findTokenInfo = async (walletTokens) => {
+  let allTokensInfo = [];
 
-  const obj = {
-    image: image,
-    name: name,
-    link: link,
-    collection: collection,
-    floorPrice: fp,
-    purchasePrice: purchasePrice,
-    datePurchased: buyDate,
-    solPrice,
-    solPriceToday,
-  };
+  //filter through walletTokens to grab all necessary data from each NFT - will limit to only 10 NFTs for now
+  for (let i = 0; i < walletTokens.length; i++) {
+    let image = walletTokens[i].image;
+    let name = walletTokens[i].name;
+    let link = `https://magiceden.io/item-details/${walletTokens[i].mintAddress}`;
+    let collection = walletTokens[i].collection;
+    let address = walletTokens[i].mintAddress;
+    let fp;
+    let purchasePrice;
+    let buyDate = undefined;
+    let solPrice = "";
 
-  if (!findData(walletTokens, "fp", address)) {
-    fp = await fetch(
-      `https://api-mainnet.magiceden.dev/v2/collections/${collection}/stats`,
-      {
-        method: "GET",
-      }
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        return data.floorPrice / 1000000000;
-      })
-      .catch((err) => console.error("error: ", err));
-  } else {
-    for (let i = 0; i < walletTokens.length; i++) {
-      if (walletTokens[i]["collection"] === collection) {
-        fp = walletTokens[i].fp;
-        break;
+    const obj = {
+      image,
+      name,
+      link,
+      collection,
+      address,
+      floorPrice: fp,
+      purchasePrice: purchasePrice,
+      datePurchased: buyDate,
+      solPrice,
+      solPriceToday,
+    };
+
+    //check to see if there is a FP for the collection, if not then fetch it
+    if (!findData(walletTokens, "fp", address)) {
+      fp = await fetch(
+        `https://api-mainnet.magiceden.dev/v2/collections/${collection}/stats`,
+        {
+          method: "GET",
+        }
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          return data.floorPrice / 1000000000;
+        })
+        .catch((err) => console.error("error: ", err));
+    } else {
+      for (let i = 0; i < walletTokens.length; i++) {
+        if (walletTokens[i]["collection"] === collection) {
+          fp = walletTokens[i].fp;
+          break;
+        }
       }
     }
   }
@@ -332,4 +339,6 @@ const findTokenInfo = async (walletTokens, address) => {
   if (buyDate !== undefined && buyDate !== "N/A") {
     solPrice = await fetchSolanaPrice(buyDate);
   }
+
+  console.log(tokensInfo);
 };

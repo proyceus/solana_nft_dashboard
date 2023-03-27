@@ -39,14 +39,14 @@ const Home = () => {
     }
   }, [walletAddress]);
 
-  useEffect(() => {
-    
-  })
+  //once searchAddress is finished, then run more detailed info grab
+  useEffect(() => {}, [walletTokens]);
 
   const searchAddress = async () => {
     setIsLoading(true);
     await fetch(
-      `https://api-mainnet.magiceden.dev/v2/wallets/${walletAddress}/tokens?offset=0&limit=100&listStatus=both
+      //limiting fetch to only 10 NFTs
+      `https://api-mainnet.magiceden.dev/v2/wallets/${walletAddress}/tokens?offset=0&limit=10&listStatus=both
     `,
       {
         method: "GET",
