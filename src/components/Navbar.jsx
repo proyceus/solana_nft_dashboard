@@ -9,6 +9,7 @@ import { useStateContext } from "../contexts/ContextProvider";
 import {
   getTransactions,
   fetchIndividualNFTActivity,
+  findTokenInfo,
 } from "../helpers/helpers.js";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 import { useWallet } from "@solana/wallet-adapter-react";
@@ -74,7 +75,7 @@ const Navbar = () => {
           icon={<AiOutlineMenu />}
         />
       )}
-      <button onClick={() => console.log(walletAddress)}>walletAddress</button>
+      <button onClick={() => findTokenInfo(walletTokens)}>tokenInfo</button>
       <button onClick={() => console.log(walletHistory)}>walletHistory</button>
       <button onClick={() => getTransactions(walletAddress)}>
         getTransactions

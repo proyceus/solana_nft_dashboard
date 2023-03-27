@@ -281,67 +281,70 @@ export const findTokenInfo = async (walletTokens) => {
       purchasePrice: purchasePrice,
       datePurchased: buyDate,
       solPrice,
-      solPriceToday,
+      //hardcode for now as CoinGecko API is being weird today
+      solPriceToday: "$24",
     };
 
-    //check to see if there is a FP for the collection, if not then fetch it
-    if (!findData(walletTokens, "fp", address)) {
-      fp = await fetch(
-        `https://api-mainnet.magiceden.dev/v2/collections/${collection}/stats`,
-        {
-          method: "GET",
-        }
-      )
-        .then((response) => response.json())
-        .then((data) => {
-          return data.floorPrice / 1000000000;
-        })
-        .catch((err) => console.error("error: ", err));
-    } else {
-      for (let i = 0; i < walletTokens.length; i++) {
-        if (walletTokens[i]["collection"] === collection) {
-          fp = walletTokens[i].fp;
-          break;
-        }
-      }
-    }
-
-    //if token does not have purchaseprice and buydate then fetch it
-    if (!findData(walletTokens, "purchasePrice", address)) {
-      purchasePrice = await fetch(
-        `https://api-mainnet.magiceden.dev/v2/tokens/${address}/activities?offset=0&limit=500`,
-        {
-          method: "GET",
-        }
-      )
-        .then((response) => response.json())
-        .then((data) => {
-          for (let i = 0; i < data.length; i++) {
-            if (data[i].type === "buyNow") {
-              buyDate = moment.unix(data[i].blockTime).format("MM/DD/YYYY");
-
-              return data[i].price;
-            }
+    setTimeout(async () => {
+      //check to see if there is a FP for the collection, if not then fetch it
+      if (!findData(walletTokens, "fp", address)) {
+        fp = await fetch(
+          `https://api-mainnet.magiceden.dev/v2/collections/${collection}/stats`,
+          {
+            method: "GET",
           }
-
-          buyDate = "N/A";
-
-          return "N/A";
-        });
-    } else {
-      for (let i = 0; i < walletTokens.length; i++) {
-        if (walletTokens[i]["mintAddress"] === address) {
-          purchasePrice = walletTokens[i].purchasePrice;
-          buyDate = walletTokens[i].datePurchased;
-          break;
+        )
+          .then((response) => response.json())
+          .then((data) => {
+            return data.floorPrice / 1000000000;
+          })
+          .catch((err) => console.error("error: ", err));
+      } else {
+        for (let i = 0; i < walletTokens.length; i++) {
+          if (walletTokens[i]["collection"] === collection) {
+            fp = walletTokens[i].fp;
+            break;
+          }
         }
       }
-    }
 
-    //fetch the SOL price on the day the asset was purchased
-    if (buyDate !== undefined && buyDate !== "N/A") {
-      solPrice = await fetchSolanaPrice(buyDate);
-    }
+      //if token does not have purchaseprice and buydate then fetch it
+      if (!findData(walletTokens, "purchasePrice", address)) {
+        purchasePrice = await fetch(
+          `https://api-mainnet.magiceden.dev/v2/tokens/${address}/activities?offset=0&limit=500`,
+          {
+            method: "GET",
+          }
+        )
+          .then((response) => response.json())
+          .then((data) => {
+            for (let i = 0; i < data.length; i++) {
+              if (data[i].type === "buyNow") {
+                buyDate = moment.unix(data[i].blockTime).format("MM/DD/YYYY");
+
+                return data[i].price;
+              }
+            }
+
+            buyDate = "N/A";
+
+            return "N/A";
+          });
+      } else {
+        for (let i = 0; i < walletTokens.length; i++) {
+          if (walletTokens[i]["mintAddress"] === address) {
+            purchasePrice = walletTokens[i].purchasePrice;
+            buyDate = walletTokens[i].datePurchased;
+            break;
+          }
+        }
+      }
+
+      //fetch the SOL price on the day the asset was purchased
+      if (buyDate !== undefined && buyDate !== "N/A") {
+        solPrice = await fetchSolanaPrice(buyDate);
+      }
+    }, 1000);
 
     //push object to tokensInfo array
     allTokensInfo.push(obj);
