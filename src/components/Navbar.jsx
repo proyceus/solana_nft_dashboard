@@ -10,6 +10,7 @@ import {
   getTransactions,
   fetchIndividualNFTActivity,
   findTokenInfo,
+  getPriceToday,
 } from "../helpers/helpers.js";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 import { useWallet } from "@solana/wallet-adapter-react";
@@ -75,7 +76,7 @@ const Navbar = () => {
           icon={<AiOutlineMenu />}
         />
       )}
-      <button onClick={() => findTokenInfo(walletTokens)}>tokenInfo</button>
+      <button onClick={() => getPriceToday()}>getPrice</button>
       <button onClick={() => console.log(walletTokens)}>walletTokens</button>
       <button onClick={() => getTransactions(walletAddress)}>
         getTransactions
