@@ -42,6 +42,7 @@ const Home = () => {
     if (walletTokens === null && walletAdapter.connected) {
       if (walletAddress !== null) {
         searchAddress();
+        getSolPriceToday();
       }
     }
   }, [walletAddress]);
@@ -62,6 +63,17 @@ const Home = () => {
         setIsLoading(false);
       })
       .catch((err) => console.error("error:" + err));
+  };
+
+  const getSolPriceToday = async () => {
+    await fetch(
+      "https://arcane-taiga-56242.herokuapp.com/https://api.coingecko.com/api/v3/simple/price?ids=solana&vs_currencies=usd",
+      {
+        method: "GET",
+      }
+    )
+      .then((response) => response.json())
+      .then((obj) => setSolPriceToday(obj.solana.usd));
   };
 
   return (

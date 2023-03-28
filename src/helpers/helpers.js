@@ -261,16 +261,8 @@ const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 // go through wallettokens and get main information on each token - this function will take awhile to complete at higher NFT numbers
 // so need to find a more optimized solution in the future
-export const findTokenInfo = async (walletTokens) => {
+export const findTokenInfo = async (walletTokens, solPriceToday) => {
   let allTokensInfo = [];
-  const solPriceToday = await fetch(
-    "https://arcane-taiga-56242.herokuapp.com/https://api.coingecko.com/api/v3/simple/price?ids=solana&vs_currencies=usd",
-    {
-      method: "GET",
-    }
-  )
-    .then((response) => response.json())
-    .then((obj) => obj.solana.usd);
 
   //filter through walletTokens to grab all necessary data from each NFT - will limit to only 10 NFTs for now
   for (let i = 0; i < 1; i++) {
