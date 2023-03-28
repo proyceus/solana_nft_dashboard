@@ -26,21 +26,16 @@ const Home = () => {
   useEffect(() => {
     if (walletAddress === null && walletAdapter.connected) {
       setWalletAddress(walletAdapter.publicKey.toString());
-      console.log("set");
+      console.log("wallet set");
     }
 
-    // commenting out until cors policy is fixed
-    /*
     if (solPriceToday === 0 && walletAdapter.connected) {
-      const price = fetchSolanaPrice();
-      setSolPriceToday(price);
+      getSolPriceToday();
     }
-    */
   }, [walletAdapter.connected]);
 
   useEffect(() => {
     if (walletTokens === null && walletAdapter.connected) {
-      getSolPriceToday();
       if (walletAddress !== null && solPriceToday > 0) {
         searchAddress();
       }
