@@ -49,6 +49,7 @@ const Navbar = () => {
     walletAddress,
     setWalletAddress,
     walletHistory,
+    solPriceToday,
   } = useStateContext();
 
   const { connected } = useWallet();
@@ -76,7 +77,13 @@ const Navbar = () => {
           icon={<AiOutlineMenu />}
         />
       )}
-      <button onClick={() => {}}>nothing</button>
+      <button
+        onClick={() => {
+          console.log(solPriceToday);
+        }}
+      >
+        nothing
+      </button>
       <button onClick={() => console.log(walletTokens)}>walletTokens</button>
       <button onClick={() => getTransactions(walletAddress)}>
         getTransactions

@@ -40,12 +40,12 @@ const Home = () => {
 
   useEffect(() => {
     if (walletTokens === null && walletAdapter.connected) {
-      if (walletAddress !== null) {
+      getSolPriceToday();
+      if (walletAddress !== null && solPriceToday > 0) {
         searchAddress();
-        getSolPriceToday();
       }
     }
-  }, [walletAddress]);
+  }, [walletAddress, solPriceToday]);
 
   const searchAddress = async () => {
     setIsLoading(true);
@@ -59,7 +59,7 @@ const Home = () => {
     )
       .then((response) => response.json())
       .then((tokens) => {
-        setWalletTokens(findTokenInfo(tokens));
+        setWalletTokens(findTokenInfo(tokens, solPriceToday));
         setIsLoading(false);
       })
       .catch((err) => console.error("error:" + err));
@@ -73,7 +73,9 @@ const Home = () => {
       }
     )
       .then((response) => response.json())
-      .then((obj) => setSolPriceToday(obj.solana.usd));
+      .then((obj) => {
+        setSolPriceToday(obj.solana.usd);
+      });
   };
 
   return (
