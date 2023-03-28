@@ -1,14 +1,18 @@
 import moment from "moment";
 
+// helper function to check if the state object already holds the generic data so as to not fetch redundant data
 export const findData = (stateToSearch, searchVariableType, assetAddress) => {
   for (let i = 0; i < stateToSearch.length; i++) {
-    if (stateToSearch[i]["mintAddress"] === assetAddress) {
+    if (stateToSearch[i]["collection"] === assetAddress) {
       if (searchVariableType === "fp") {
         if (stateToSearch[i]["fp"] >= 0 || stateToSearch[i]["fp"] === "N/A") {
           console.log("True");
           return true;
         }
-      } else if (searchVariableType === "purchasePrice") {
+      }
+    }
+    if (stateToSearch[i]["mintAddress"] === assetAddress) {
+      if (searchVariableType === "purchasePrice") {
         if (
           stateToSearch[i]["purchasePrice"] >= 0 ||
           stateToSearch[i]["purchasePrice"] === "N/A"
@@ -265,7 +269,7 @@ export const findTokenInfo = async (walletTokens, solPriceToday) => {
   let allTokensInfo = [];
 
   //filter through walletTokens to grab all necessary data from each NFT - will limit to only 10 NFTs for now
-  for (let i = 0; i < 1; i++) {
+  for (let i = 0; i < 5; i++) {
     console.log(i);
     let image = walletTokens[i].image;
     let name = walletTokens[i].name;
@@ -278,7 +282,7 @@ export const findTokenInfo = async (walletTokens, solPriceToday) => {
     let solPrice = "";
 
     //check to see if there is a FP for the collection, if not then fetch it
-    if (!findData(walletTokens, "fp", address)) {
+    if (!findData(allTokensInfo, "fp", collection)) {
       fp = await fetch(
         `https://arcane-taiga-56242.herokuapp.com/https://api-mainnet.magiceden.dev/v2/collections/${collection}/stats`,
         {
@@ -291,16 +295,16 @@ export const findTokenInfo = async (walletTokens, solPriceToday) => {
         });
       console.log(fp);
     } else {
-      for (let i = 0; i < walletTokens.length; i++) {
-        if (walletTokens[i]["collection"] === collection) {
-          fp = walletTokens[i].fp;
+      for (let i = 0; i < allTokensInfo.length; i++) {
+        if (allTokensInfo[i]["collection"] === collection) {
+          fp = allTokensInfo[i].fp;
           break;
         }
       }
     }
 
     //if token does not have purchaseprice and buydate then fetch it
-    if (!findData(walletTokens, "purchasePrice", address)) {
+    if (!findData(allTokensInfo, "purchasePrice", address)) {
       purchasePrice = await fetch(
         `https://api-mainnet.magiceden.dev/v2/tokens/${address}/activities?offset=0&limit=500`,
         {
@@ -322,10 +326,10 @@ export const findTokenInfo = async (walletTokens, solPriceToday) => {
           return "N/A";
         });
     } else {
-      for (let i = 0; i < walletTokens.length; i++) {
-        if (walletTokens[i]["mintAddress"] === address) {
-          purchasePrice = walletTokens[i].purchasePrice;
-          buyDate = walletTokens[i].datePurchased;
+      for (let i = 0; i < allTokensInfo.length; i++) {
+        if (allTokensInfo[i]["mintAddress"] === address) {
+          purchasePrice = allTokensInfo[i].purchasePrice;
+          buyDate = allTokensInfo[i].datePurchased;
           break;
         }
       }
@@ -342,8 +346,8 @@ export const findTokenInfo = async (walletTokens, solPriceToday) => {
       link,
       collection,
       address,
-      floorPrice: fp,
-      purchasePrice: purchasePrice,
+      fp,
+      purchasePrice,
       datePurchased: buyDate,
       solPrice,
       solPriceToday,
