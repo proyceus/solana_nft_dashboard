@@ -76,7 +76,7 @@ const Navbar = () => {
           icon={<AiOutlineMenu />}
         />
       )}
-      <button onClick={() => getPriceToday()}>getPrice</button>
+      <button onClick={() => {}}>nothing</button>
       <button onClick={() => console.log(walletTokens)}>walletTokens</button>
       <button onClick={() => getTransactions(walletAddress)}>
         getTransactions

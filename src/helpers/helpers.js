@@ -256,18 +256,8 @@ export const fetchIndividualNFTActivity = async (nftAddress) => {
   return response;
 };
 
-export const getPriceToday = async () => {
-  const solPriceToday = await fetch(
-    "https://arcane-taiga-56242.herokuapp.com/https://api.coingecko.com/api/v3/simple/price?ids=solana&vs_currencies=usd",
-    {
-      method: "GET",
-    }
-  )
-    .then((response) => response.json())
-    .then((obj) => obj.solana.usd);
-
-  console.log(solPriceToday);
-};
+// small function to help with pauses in between fetch requests as it is currently rate limited to 2 requests per second
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 // go through wallettokens and get main information on each token - this function will take awhile to complete at higher NFT numbers
 // so need to find a more optimized solution in the future
@@ -363,7 +353,6 @@ export const findTokenInfo = async (walletTokens) => {
       purchasePrice: purchasePrice,
       datePurchased: buyDate,
       solPrice,
-      //hardcode for now as CoinGecko API is being weird today
       solPriceToday,
     };
 
