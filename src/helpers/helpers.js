@@ -35,22 +35,11 @@ export const fetchSolanaPrice = async (givenDate) => {
     date.getMonth() + 1
   }-${date.getFullYear()}`;
 
-  //using RapidAPI for local CORS proxy
-  const options = {
-    method: "POST",
-    headers: {
-      "content-type": "application/json",
-      Origin: "www.example.com",
-      "X-Requested-With": "www.example.com",
-      "X-RapidAPI-Key": "9cc19cd5f7msh1cc5823a4b19e61p12a9aajsnd33f7684b55e",
-      "X-RapidAPI-Host": "http-cors-proxy.p.rapidapi.com",
-    },
-    body: `{"url":"https://api.coingecko.com/api/v3/coins/solana/history?date=${dateString}","method":"GET","headers":{"Content-type":"application/json; charset=UTF-8"}}`,
-  };
-
   const price = await fetch(
-    "https://http-cors-proxy.p.rapidapi.com/",
-    options
+    `https://arcane-taiga-56242.herokuapp.com/https://api.coingecko.com/api/v3/coins/solana/history?date=${dateString}`,
+    {
+      method: "GET",
+    }
   ).then((response) => response.json());
 
   return `$${price.market_data.current_price.usd.toFixed(2)}`;
@@ -271,17 +260,12 @@ export const fetchIndividualNFTActivity = async (nftAddress) => {
 // so need to find a more optimized solution in the future
 export const findTokenInfo = async (walletTokens) => {
   let allTokensInfo = [];
-  const solPriceToday = await fetch("https://http-cors-proxy.p.rapidapi.com/", {
-    method: "POST",
-    headers: {
-      "content-type": "application/json",
-      Origin: "www.example.com",
-      "X-Requested-With": "www.example.com",
-      "X-RapidAPI-Key": "9cc19cd5f7msh1cc5823a4b19e61p12a9aajsnd33f7684b55e",
-      "X-RapidAPI-Host": "http-cors-proxy.p.rapidapi.com",
-    },
-    body: `{"url":"https://api.coingecko.com/api/v3/simple/price?ids=solana&vs_currencies=usd","method":"GET","headers":{"Content-type":"application/json; charset=UTF-8"}}`,
-  })
+  const solPriceToday = await fetch(
+    "https://arcane-taiga-56242.herokuapp.com/https://api.coingecko.com/api/v3/simple/price?ids=solana&vs_currencies=usd",
+    {
+      method: "GET",
+    }
+  )
     .then((response) => response.json())
     .then((obj) => obj.solana.usd);
 
@@ -299,18 +283,12 @@ export const findTokenInfo = async (walletTokens) => {
 
     //check to see if there is a FP for the collection, if not then fetch it
     if (!findData(walletTokens, "fp", address)) {
-      fp = await fetch("https://http-cors-proxy.p.rapidapi.com/", {
-        method: "POST",
-        headers: {
-          "content-type": "application/json",
-          Origin: "www.example.com",
-          "X-Requested-With": "www.example.com",
-          "X-RapidAPI-Key":
-            "9cc19cd5f7msh1cc5823a4b19e61p12a9aajsnd33f7684b55e",
-          "X-RapidAPI-Host": "http-cors-proxy.p.rapidapi.com",
-        },
-        body: `{"url":"https://api-mainnet.magiceden.dev/v2/collections/${collection}/stats","method":"GET",}`,
-      })
+      fp = await fetch(
+        `https://arcane-taiga-56242.herokuapp.com/https://api-mainnet.magiceden.dev/v2/collections/${collection}/stats`,
+        {
+          method: "GET",
+        }
+      )
         .then((response) => response.json())
         .then((data) => {
           return data.floorPrice / 1000000000;
