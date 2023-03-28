@@ -265,7 +265,7 @@ export const findTokenInfo = async (walletTokens, solPriceToday) => {
   let allTokensInfo = [];
 
   //filter through walletTokens to grab all necessary data from each NFT - will limit to only 10 NFTs for now
-  for (let i = 0; i < 5; i++) {
+  for (let i = 0; i < 1; i++) {
     console.log(i);
     let image = walletTokens[i].image;
     let name = walletTokens[i].name;

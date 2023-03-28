@@ -54,7 +54,9 @@ const Home = () => {
     )
       .then((response) => response.json())
       .then((tokens) => {
-        setWalletTokens(findTokenInfo(tokens, solPriceToday));
+        findTokenInfo(tokens, solPriceToday).then((response) => {
+          setWalletTokens(response);
+        });
         setIsLoading(false);
       })
       .catch((err) => console.error("error:" + err));
