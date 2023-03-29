@@ -30,23 +30,6 @@ const Gallery = () => {
         solPrice,
         solPriceToday,
       });
-
-      setWalletTokens((current) =>
-        current.map((obj) => {
-          if (obj["name"] === name) {
-            return {
-              ...obj,
-              fp: fp,
-              purchasePrice,
-              datePurchased: buyDate,
-              solPrice,
-              solPriceToday,
-            };
-          }
-
-          return obj;
-        })
-      );
     }
 
     if (cardClick === true) setSpecificAsset({});
