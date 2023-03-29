@@ -37,7 +37,7 @@ const Home = () => {
 
   useEffect(() => {
     if (walletTokens === null && walletAdapter.connected) {
-      if (walletAddress !== null /*&& solPriceToday > 0*/) {
+      if (walletAddress !== null && solPriceToday > 0) {
         searchAddress();
       }
     }
