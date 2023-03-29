@@ -46,8 +46,8 @@ const Home = () => {
   const searchAddress = async () => {
     setIsLoading(true);
     await fetch(
-      //limiting fetch to only 10 NFTs
-      `https://api-mainnet.magiceden.dev/v2/wallets/${walletAddress}/tokens?offset=0&limit=10&listStatus=both
+      //limiting fetch to only 5 NFTs
+      `https://api-mainnet.magiceden.dev/v2/wallets/${walletAddress}/tokens?offset=0&limit=5&listStatus=both
     `,
       {
         method: "GET",
