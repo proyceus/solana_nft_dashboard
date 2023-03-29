@@ -127,9 +127,11 @@ const ProfitLoss = () => {
         PurchaseSOL,
         CurrentFPSOL,
         ProfitLossSOL,
-        PurchaseUSD: `$${PurchaseUSD}`,
-        CurrentFPUSD: `$${CurrentFPUSD}`,
-        ProfitLossUSD: `$${ProfitLossUSD}`,
+        PurchaseUSD: PurchaseUSD !== "N/A" ? `$${PurchaseUSD}` : PurchaseUSD,
+        CurrentFPUSD:
+          CurrentFPUSD !== "N/A" ? `$${CurrentFPUSD}` : CurrentFPUSD,
+        ProfitLossUSD:
+          ProfitLossUSD !== "N/A" ? `$${ProfitLossUSD}` : ProfitLossUSD,
         nftImage,
       };
 
