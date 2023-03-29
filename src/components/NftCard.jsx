@@ -52,9 +52,8 @@ const NftCard = ({ handleNftClick }) => {
                 specificAsset.solPrice !== "N/A" && (
                   <p className="text-xl">
                     USD Cost: $
-                    {(
-                      Number(specificAsset.solPrice.slice(1)) *
-                      specificAsset.purchasePrice
+                    {/*Number(specificAsset.solPrice.slice(1))*/ (
+                      solPriceToday * specificAsset.purchasePrice
                     ).toFixed(2)}
                   </p>
                 )}
@@ -69,16 +68,14 @@ const NftCard = ({ handleNftClick }) => {
             <p>Current FP</p>
             <div className="flex justify-center text-center flex-col mt-5">
               <p className="text-xl">
-                {specificAsset.floorPrice
-                  ? `${specificAsset.floorPrice} SOL`
-                  : "N/A"}
+                {specificAsset.fp ? `${specificAsset.fp} SOL` : "N/A"}
               </p>
               <br />
               <p className="text-xl">
-                {specificAsset.floorPrice
+                {specificAsset.fp
                   ? `$${(
                       Number(specificAsset.solPriceToday.slice(1)) *
-                      specificAsset.floorPrice
+                      specificAsset.fp
                     ).toFixed(2)}`
                   : "N/A"}
               </p>

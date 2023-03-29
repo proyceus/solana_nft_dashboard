@@ -18,24 +18,36 @@ const Gallery = () => {
   } = useStateContext();
 
   const handleNftClick = async (e) => {
-    console.log(e.target);
-    // if (cardClick === false) {
-    //   setSpecificAsset({
-    //     image: image,
-    //     name: name,
-    //     link: link,
-    //     collection: collection,
-    //     floorPrice: fp,
-    //     purchasePrice: purchasePrice,
-    //     datePurchased: buyDate,
-    //     solPrice,
-    //     solPriceToday,
-    //   });
-    // }
+    if (cardClick === false) {
+      const name = e.target.alt;
+      const specificNft = walletTokens.find((item) => item.name === name);
+      console.log(specificNft);
+      const {
+        image,
+        link,
+        collection,
+        fp,
+        purchasePrice,
+        datePurchased,
+        solPrice,
+        solPriceToday,
+      } = specificNft;
+      setSpecificAsset({
+        image,
+        name,
+        link,
+        collection,
+        fp,
+        purchasePrice,
+        datePurchased,
+        solPrice,
+        solPriceToday,
+      });
+    }
 
-    // if (cardClick === true) setSpecificAsset({});
+    if (cardClick === true) setSpecificAsset({});
 
-    // cardClick === false ? setCardClick(true) : setCardClick(false);
+    cardClick === false ? setCardClick(true) : setCardClick(false);
   };
 
   if (isLoading) return <Loading />;
