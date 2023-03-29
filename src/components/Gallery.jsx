@@ -52,11 +52,6 @@ const Gallery = () => {
                       alt={item.name}
                       className=" object-cover w-full h-full rounded-lg cursor-pointer"
                       src={item.image}
-                      data-image={item.image}
-                      data-name={item.name}
-                      data-link={`https://magiceden.io/item-details/${item.mintAddress}`}
-                      data-collection={item.collection}
-                      data-address={item.mintAddress}
                       onClick={handleNftClick}
                     />
                   </div>
