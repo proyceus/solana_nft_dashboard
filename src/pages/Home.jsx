@@ -29,14 +29,14 @@ const Home = () => {
       console.log("wallet set");
     }
 
-    if (solPriceToday === 0 && walletAdapter.connected) {
-      getSolPriceToday();
-    }
+    // if (solPriceToday === 0 && walletAdapter.connected) {
+    //   getSolPriceToday();
+    // }
   }, [walletAdapter.connected]);
 
   useEffect(() => {
     if (walletTokens === null && walletAdapter.connected) {
-      if (walletAddress !== null && solPriceToday > 0) {
+      if (walletAddress !== null /*&& solPriceToday > 0*/) {
         searchAddress();
       }
     }

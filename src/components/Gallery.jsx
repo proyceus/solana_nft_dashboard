@@ -18,23 +18,24 @@ const Gallery = () => {
   } = useStateContext();
 
   const handleNftClick = async (e) => {
-    if (cardClick === false) {
-      setSpecificAsset({
-        image: image,
-        name: name,
-        link: link,
-        collection: collection,
-        floorPrice: fp,
-        purchasePrice: purchasePrice,
-        datePurchased: buyDate,
-        solPrice,
-        solPriceToday,
-      });
-    }
+    console.log(e.target);
+    // if (cardClick === false) {
+    //   setSpecificAsset({
+    //     image: image,
+    //     name: name,
+    //     link: link,
+    //     collection: collection,
+    //     floorPrice: fp,
+    //     purchasePrice: purchasePrice,
+    //     datePurchased: buyDate,
+    //     solPrice,
+    //     solPriceToday,
+    //   });
+    // }
 
-    if (cardClick === true) setSpecificAsset({});
+    // if (cardClick === true) setSpecificAsset({});
 
-    cardClick === false ? setCardClick(true) : setCardClick(false);
+    // cardClick === false ? setCardClick(true) : setCardClick(false);
   };
 
   if (isLoading) return <Loading />;
