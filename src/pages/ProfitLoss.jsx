@@ -103,18 +103,23 @@ const ProfitLoss = () => {
       const Name = walletTokens[i].name ?? "N/A";
       const PurchaseSOL = walletTokens[i].purchasePrice ?? "N/A";
       const CurrentFPSOL = walletTokens[i].fp ?? "N/A";
-      const ProfitLossSOL = (CurrentFPSOL - PurchaseSOL).toFixed(2) ?? "N/A";
+      const ProfitLossSOL =
+        PurchaseSOL === "N/A" ? "N/A" : (CurrentFPSOL - PurchaseSOL).toFixed(2);
       const purchasedSolPrice =
         walletTokens[i].solPrice === undefined
           ? "N/A"
-          : Number(walletTokens[i].solPrice.slice(1)).toFixed(2);
-      const PurchaseUSD = (PurchaseSOL * purchasedSolPrice).toFixed(2) ?? "N/A";
+          : walletTokens[i].solPrice;
+      const PurchaseUSD =
+        PurchaseSOL === "N/A"
+          ? "N/A"
+          : (PurchaseSOL * purchasedSolPrice).toFixed(2);
       const currentSolPrice =
         walletTokens[i].solPriceToday === undefined
           ? "N/A"
-          : Number(walletTokens[i].solPriceToday.slice(1)).toFixed(2);
+          : walletTokens[i].solPriceToday.toFixed(2);
       const CurrentFPUSD = (CurrentFPSOL * currentSolPrice).toFixed(2) ?? "N/A";
-      const ProfitLossUSD = (CurrentFPUSD - PurchaseUSD).toFixed(2) ?? "N/A";
+      const ProfitLossUSD =
+        PurchaseUSD === "N/A" ? "N/A" : (CurrentFPUSD - PurchaseUSD).toFixed(2);
       const nftImage = walletTokens[i].image ?? "N/A";
 
       const obj = {
@@ -122,9 +127,9 @@ const ProfitLoss = () => {
         PurchaseSOL,
         CurrentFPSOL,
         ProfitLossSOL,
-        PurchaseUSD,
-        CurrentFPUSD,
-        ProfitLossUSD,
+        PurchaseUSD: `$${PurchaseUSD}`,
+        CurrentFPUSD: `$${CurrentFPUSD}`,
+        ProfitLossUSD: `$${ProfitLossUSD}`,
         nftImage,
       };
 
