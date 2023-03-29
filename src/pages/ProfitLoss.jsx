@@ -26,9 +26,9 @@ const ProfitLoss = () => {
   );
 
   const textColorChange = (x) => {
-    if (x > 0) {
+    if (x > 0 || Number(x.slice(1)) > 0) {
       return "text-lime-500";
-    } else if (x < 0) {
+    } else if (x < 0 || Number(x.slice(1)) < 0) {
       return "text-red-600";
     } else {
       return "text-black";
