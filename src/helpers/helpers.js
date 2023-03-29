@@ -46,7 +46,7 @@ export const fetchSolanaPrice = async (givenDate) => {
     }
   ).then((response) => response.json());
 
-  return `$${price.market_data.current_price.usd.toFixed(2)}`;
+  return price.market_data.current_price.usd.toFixed(2);
 };
 
 export const getTransactions = async (address, rpc) => {
