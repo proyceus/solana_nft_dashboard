@@ -270,93 +270,94 @@ export const findTokenInfo = async (walletTokens, solPriceToday) => {
 
   //filter through walletTokens to grab all necessary data from each NFT - will limit to only 10 NFTs for now
   for (let i = 0; i < 5; i++) {
-    let image = walletTokens[i].image;
-    let name = walletTokens[i].name;
-    let link = `https://magiceden.io/item-details/${walletTokens[i].mintAddress}`;
-    let collection = walletTokens[i].collection;
-    let address = walletTokens[i].mintAddress;
-    let fp;
-    let purchasePrice;
-    let buyDate = undefined;
-    let solPrice = "";
+    console.log("test");
+    // let image = walletTokens[i].image;
+    // let name = walletTokens[i].name;
+    // let link = `https://magiceden.io/item-details/${walletTokens[i].mintAddress}`;
+    // let collection = walletTokens[i].collection;
+    // let address = walletTokens[i].mintAddress;
+    // let fp;
+    // let purchasePrice;
+    // let buyDate = undefined;
+    // let solPrice = "";
 
-    //check to see if there is a FP for the collection, if not then fetch it
-    if (!findData(allTokensInfo, "fp", collection)) {
-      fp = await fetch(
-        `https://arcane-taiga-56242.herokuapp.com/https://api-mainnet.magiceden.dev/v2/collections/${collection}/stats`,
-        {
-          method: "GET",
-        }
-      )
-        .then((response) => response.json())
-        .then((data) => {
-          return data.floorPrice / 1000000000;
-        });
-      console.log(fp);
-    } else {
-      for (let i = 0; i < allTokensInfo.length; i++) {
-        if (allTokensInfo[i]["collection"] === collection) {
-          fp = allTokensInfo[i].fp;
-          break;
-        }
-      }
-    }
+    // //check to see if there is a FP for the collection, if not then fetch it
+    // if (!findData(allTokensInfo, "fp", collection)) {
+    //   fp = await fetch(
+    //     `https://arcane-taiga-56242.herokuapp.com/https://api-mainnet.magiceden.dev/v2/collections/${collection}/stats`,
+    //     {
+    //       method: "GET",
+    //     }
+    //   )
+    //     .then((response) => response.json())
+    //     .then((data) => {
+    //       return data.floorPrice / 1000000000;
+    //     });
+    //   console.log(fp);
+    // } else {
+    //   for (let i = 0; i < allTokensInfo.length; i++) {
+    //     if (allTokensInfo[i]["collection"] === collection) {
+    //       fp = allTokensInfo[i].fp;
+    //       break;
+    //     }
+    //   }
+    // }
 
-    //if token does not have purchaseprice and buydate then fetch it
-    if (!findData(allTokensInfo, "purchasePrice", address)) {
-      purchasePrice = await fetch(
-        `https://api-mainnet.magiceden.dev/v2/tokens/${address}/activities?offset=0&limit=500`,
-        {
-          method: "GET",
-        }
-      )
-        .then((response) => response.json())
-        .then((data) => {
-          for (let i = 0; i < data.length; i++) {
-            if (data[i].type === "buyNow") {
-              buyDate = moment.unix(data[i].blockTime).format("MM/DD/YYYY");
+    // //if token does not have purchaseprice and buydate then fetch it
+    // if (!findData(allTokensInfo, "purchasePrice", address)) {
+    //   purchasePrice = await fetch(
+    //     `https://api-mainnet.magiceden.dev/v2/tokens/${address}/activities?offset=0&limit=500`,
+    //     {
+    //       method: "GET",
+    //     }
+    //   )
+    //     .then((response) => response.json())
+    //     .then((data) => {
+    //       for (let i = 0; i < data.length; i++) {
+    //         if (data[i].type === "buyNow") {
+    //           buyDate = moment.unix(data[i].blockTime).format("MM/DD/YYYY");
 
-              return data[i].price;
-            }
-          }
+    //           return data[i].price;
+    //         }
+    //       }
 
-          buyDate = "N/A";
+    //       buyDate = "N/A";
 
-          return "N/A";
-        });
-    } else {
-      for (let i = 0; i < allTokensInfo.length; i++) {
-        if (allTokensInfo[i]["mintAddress"] === address) {
-          purchasePrice = allTokensInfo[i].purchasePrice;
-          buyDate = allTokensInfo[i].datePurchased;
-          break;
-        }
-      }
-    }
+    //       return "N/A";
+    //     });
+    // } else {
+    //   for (let i = 0; i < allTokensInfo.length; i++) {
+    //     if (allTokensInfo[i]["mintAddress"] === address) {
+    //       purchasePrice = allTokensInfo[i].purchasePrice;
+    //       buyDate = allTokensInfo[i].datePurchased;
+    //       break;
+    //     }
+    //   }
+    // }
 
-    //fetch the SOL price on the day the asset was purchased
-    if (buyDate !== undefined && buyDate !== "N/A") {
-      solPrice = await fetchSolanaPrice(buyDate);
-    }
+    // //fetch the SOL price on the day the asset was purchased
+    // if (buyDate !== undefined && buyDate !== "N/A") {
+    //   solPrice = await fetchSolanaPrice(buyDate);
+    // }
 
-    const obj = {
-      image,
-      name,
-      link,
-      collection,
-      address,
-      fp,
-      purchasePrice,
-      datePurchased: buyDate,
-      solPrice,
-      solPriceToday,
-    };
+    // const obj = {
+    //   image,
+    //   name,
+    //   link,
+    //   collection,
+    //   address,
+    //   fp,
+    //   purchasePrice,
+    //   datePurchased: buyDate,
+    //   solPrice,
+    //   solPriceToday,
+    // };
 
-    //push object to tokensInfo array
-    allTokensInfo.push(obj);
+    // //push object to tokensInfo array
+    // allTokensInfo.push(obj);
     await sleep(1500);
   }
 
-  console.log(allTokensInfo);
-  return allTokensInfo;
+  // console.log(allTokensInfo);
+  // return allTokensInfo;
 };

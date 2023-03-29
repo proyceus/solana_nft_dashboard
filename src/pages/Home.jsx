@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Search } from "../components";
+import { Search, Loading } from "../components";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { useStateContext } from "../contexts/ContextProvider";
 import {
@@ -19,6 +19,7 @@ const Home = () => {
     setIsConnected,
     solPriceToday,
     walletTokens,
+    isLoading,
   } = useStateContext();
 
   const walletAdapter = useWallet();
@@ -56,8 +57,8 @@ const Home = () => {
       .then((tokens) => {
         findTokenInfo(tokens, solPriceToday).then((response) => {
           setWalletTokens(response);
+          setIsLoading(false);
         });
-        setIsLoading(false);
       })
       .catch((err) => console.error("error:" + err));
   };
@@ -77,11 +78,15 @@ const Home = () => {
 
   return (
     <div className="mt-12">
-      <div className="flex flex-wrap lg:flex-nowrap justify-center">
-        {walletAdapter.connected
-          ? "Wallet connected"
-          : "Please connect your wallet"}
-      </div>
+      {isLoading ? (
+        <Loading text="loading your assets" />
+      ) : (
+        <div className="flex flex-wrap lg:flex-nowrap justify-center">
+          {walletAdapter.connected
+            ? "Wallet connected"
+            : "Please connect your wallet"}
+        </div>
+      )}
     </div>
   );
 };
