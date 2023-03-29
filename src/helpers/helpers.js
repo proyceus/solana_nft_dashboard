@@ -270,7 +270,6 @@ export const findTokenInfo = async (walletTokens, solPriceToday) => {
 
   //filter through walletTokens to grab all necessary data from each NFT - will limit to only 10 NFTs for now
   for (let i = 0; i < 5; i++) {
-    console.log(i);
     let image = walletTokens[i].image;
     let name = walletTokens[i].name;
     let link = `https://magiceden.io/item-details/${walletTokens[i].mintAddress}`;
