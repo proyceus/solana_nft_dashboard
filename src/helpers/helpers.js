@@ -149,21 +149,16 @@ export const getTransactions = async (address, rpc) => {
     }
   }
 
-  console.log(transactions);
   return transactions;
 };
 
 export const filterTransactions = (transactions, address) => {
-  const magicedenAddress = "1BWutmTvYPwDtmw9abTkS4Ssr8no61spGAvW1X6NDix";
-  console.log(transactions);
   const logsArray = [];
   for (let i = 0; i < transactions.length; i++) {
     // check to see if post and pre token have entries in the array
     const postToken =
       transactions[i].tokenBalance.postTokenBalance.length === 1;
     const preToken = transactions[i].tokenBalance.preTokenBalance.length === 1;
-
-    console.log(transactions[i].link, postToken, preToken);
 
     // check to see if pre or post is our wallet
     const postTokenOwner = postToken
@@ -205,7 +200,6 @@ export const filterTransactions = (transactions, address) => {
     logsArray.push(txObj);
   }
 
-  console.log(logsArray);
   return logsArray;
 };
 

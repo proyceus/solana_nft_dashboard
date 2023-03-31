@@ -38,22 +38,13 @@ const History = () => {
             walletAddress,
             process.env.REACT_APP_RPC_URL
           );
-          setWalletHistory(tx);
+          await setWalletHistory(tx);
+          const secondTx = filterTransactions(walletHistory, walletAddress);
+          setWalletHistoryLogs((prevState) => [...prevState, ...secondTx]);
           setIsLoading(false);
         }}
       >
         Click
-      </button>
-      <button
-        onClick={async () => {
-          setIsLoading(true);
-          const tx = filterTransactions(walletHistory, walletAddress);
-
-          setWalletHistoryLogs((prevState) => [...prevState, ...tx]);
-          setIsLoading(false);
-        }}
-      >
-        Click 2
       </button>
       <button
         onClick={() => {
