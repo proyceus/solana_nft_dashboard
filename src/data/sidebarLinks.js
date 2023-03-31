@@ -32,10 +32,10 @@ export const links = [
         name: "History",
         icon: <IoAnalyticsOutline />,
       },
-      {
-        name: "Calendar",
-        icon: <AiOutlineCalendar />,
-      },
+      // {
+      //   name: "Calendar",
+      //   icon: <AiOutlineCalendar />,
+      // },
     ],
   },
 ];
