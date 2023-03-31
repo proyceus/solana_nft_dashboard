@@ -129,11 +129,11 @@ export const getTransactions = async (address, rpc) => {
       }
 
       const tokenBalance = {
-        // mintAddress: postTokenBalance.mintAddress,
-        // owner: postTokenBalance.owner,
-        // // difference:
-        // //   postTokenBalance.postTokenBalance / 1000000000 -
-        // //   preTokenBalance.preTokenBalance / 1000000000,
+        mintAddress: postTokenBalance.mintAddress,
+        owner: postTokenBalance.owner,
+        difference:
+          postTokenBalance.postTokenBalance / 1000000000 -
+          preTokenBalance.preTokenBalance / 1000000000,
         preTokenBalance,
         postTokenBalance,
       };
