@@ -181,7 +181,8 @@ export const filterTransactions = (transactions) => {
             item: transactions[j].tokenBalance.preTokenBalance[i].mintAddress,
             link: transactions[j].link,
             difference:
-              transactions[j].ownerAccountBalance.difference > 0.01
+              transactions[j].ownerAccountBalance.difference > 0 ||
+              transactions[j].ownerAccountBalance.differece < 0
                 ? transactions[j].ownerAccountBalance.difference
                 : "n/a",
             date: date.toUTCString(),
