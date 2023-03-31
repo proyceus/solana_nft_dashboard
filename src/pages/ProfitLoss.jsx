@@ -9,10 +9,25 @@ import {
   Toolbar,
 } from "@syncfusion/ej2-react-grids";
 import { Header } from "../components";
+import { useWallet } from "@solana/wallet-adapter-react";
 import { useStateContext } from "../contexts/ContextProvider";
 
 const ProfitLoss = () => {
-  const { walletTokens, setNftData, nftData } = useStateContext();
+  const { walletTokens, setNftData, nftData, walletAddress, setWalletAddress } =
+    useStateContext();
+
+  const walletAdapter = useWallet();
+
+  useEffect(() => {
+    if (walletAddress === null && walletAdapter.connected) {
+      setWalletAddress(walletAdapter.publicKey.toString());
+      console.log("wallet set");
+    }
+
+    //   if (solPriceToday === 0 && connected) {
+    //     getSolPriceToday();
+    //   }
+  }, [walletAdapter.connected]);
 
   const gridNftImage = (props) => (
     <div className="flex items-center gap-2">

@@ -5,7 +5,7 @@ import { useStateContext } from "../contexts/ContextProvider";
 import Loading from "../components/Loading";
 
 const History = () => {
-  const { connected } = useWallet();
+  const walletAdapter = useWallet();
   const {
     walletHistory,
     setWalletHistory,
@@ -14,7 +14,19 @@ const History = () => {
     setIsLoading,
     walletHistoryLogs,
     setWalletHistoryLogs,
+    setWalletAddress,
   } = useStateContext();
+
+  useEffect(() => {
+    if (walletAddress === null && walletAdapter.connected) {
+      setWalletAddress(walletAdapter.publicKey.toString());
+      console.log("wallet set");
+    }
+
+    //   if (solPriceToday === 0 && connected) {
+    //     getSolPriceToday();
+    //   }
+  }, [walletAdapter.connected]);
 
   // let accountBalanceByAddress;
 
@@ -57,7 +69,7 @@ const History = () => {
       <button
         onClick={async () => {
           setIsLoading(true);
-          const tx = await filterTransactions(walletHistory);
+          const tx = filterTransactions(walletHistory);
           setWalletHistoryLogs((prevState) => [...prevState, ...tx]);
           setIsLoading(false);
         }}
