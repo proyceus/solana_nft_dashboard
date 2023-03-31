@@ -1,4 +1,5 @@
 import moment from "moment";
+const web3 = require("@solana/web3.js");
 
 // helper function to check if the state object already holds the generic data so as to not fetch redundant data
 export const findData = (stateToSearch, searchVariableType, assetAddress) => {
@@ -50,8 +51,6 @@ export const fetchSolanaPrice = async (givenDate) => {
 };
 
 export const getTransactions = async (address, rpc) => {
-  const web3 = require("@solana/web3.js");
-
   const connection = new web3.Connection(rpc);
 
   const publicKey = new web3.PublicKey(address);
@@ -330,5 +329,11 @@ export const findTokenInfo = async (walletTokens, solPriceToday) => {
 
 export const fetchNftHistoryInfo = async () => {
   // loop through filtered array
-  // fetch information using
+  // fetch information using web3
+  const publicKey = new web3.PublicKey(
+    "3bSjqi8sXZaKnmKtKBp3odQhrnmdPjiytJyQgEBgGS9b"
+  );
+  const solana = new web3.Connection(process.env.REACT_APP_RPC_URL);
+  const accountInfo = await solana.getAccountInfo(publicKey);
+  console.log(accountInfo);
 };

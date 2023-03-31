@@ -1,5 +1,9 @@
 import { useEffect } from "react";
-import { getTransactions, filterTransactions } from "../helpers/helpers";
+import {
+  getTransactions,
+  filterTransactions,
+  fetchNftHistoryInfo,
+} from "../helpers/helpers";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { useStateContext } from "../contexts/ContextProvider";
 import Loading from "../components/Loading";
@@ -45,6 +49,13 @@ const History = () => {
         }}
       >
         Click
+      </button>
+      <button
+        onClick={() => {
+          fetchNftHistoryInfo();
+        }}
+      >
+        CLICKMEEEE
       </button>
       {isLoading && <Loading />}
       <ul>
