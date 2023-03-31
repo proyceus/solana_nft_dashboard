@@ -24,24 +24,24 @@ const Home = () => {
 
   const walletAdapter = useWallet();
 
-  // useEffect(() => {
-  //   if (walletAddress === null && walletAdapter.connected) {
-  //     setWalletAddress(walletAdapter.publicKey.toString());
-  //     console.log("wallet set");
-  //   }
+  useEffect(() => {
+    if (walletAddress === null && walletAdapter.connected) {
+      setWalletAddress(walletAdapter.publicKey.toString());
+      console.log("wallet set");
+    }
 
-  //   if (solPriceToday === 0 && walletAdapter.connected) {
-  //     getSolPriceToday();
-  //   }
-  // }, [walletAdapter.connected]);
+    if (solPriceToday === 0 && walletAdapter.connected) {
+      getSolPriceToday();
+    }
+  }, [walletAdapter.connected]);
 
-  // useEffect(() => {
-  //   if (walletTokens === null && walletAdapter.connected) {
-  //     if (walletAddress !== null && solPriceToday > 0) {
-  //       searchAddress();
-  //     }
-  //   }
-  // }, [walletAddress, solPriceToday]);
+  useEffect(() => {
+    if (walletTokens === null && walletAdapter.connected) {
+      if (walletAddress !== null && solPriceToday > 0) {
+        searchAddress();
+      }
+    }
+  }, [walletAddress, solPriceToday]);
 
   const searchAddress = async () => {
     setIsLoading(true);
@@ -64,17 +64,17 @@ const Home = () => {
   };
 
   const getSolPriceToday = async () => {
-    // await fetch(
-    //   "https://arcane-taiga-56242.herokuapp.com/https://api.coingecko.com/api/v3/simple/price?ids=solana&vs_currencies=usd",
-    //   {
-    //     method: "GET",
-    //   }
-    // )
-    //   .then((response) => response.json())
-    //   .then((obj) => {
-    //     setSolPriceToday(obj.solana.usd);
-    //   });
-    setSolPriceToday(21);
+    await fetch(
+      "https://arcane-taiga-56242.herokuapp.com/https://api.coingecko.com/api/v3/simple/price?ids=solana&vs_currencies=usd",
+      {
+        method: "GET",
+      }
+    )
+      .then((response) => response.json())
+      .then((obj) => {
+        setSolPriceToday(obj.solana.usd);
+      });
+    // setSolPriceToday(21);
   };
 
   return (
