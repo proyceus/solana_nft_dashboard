@@ -46,13 +46,6 @@ const History = () => {
       >
         Click
       </button>
-      <button
-        onClick={() => {
-          console.log(walletHistoryLogs);
-        }}
-      >
-        Click 3
-      </button>
       {isLoading && <Loading />}
       <ul>
         {walletHistoryLogs.map((item, index) => (

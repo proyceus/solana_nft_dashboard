@@ -327,3 +327,8 @@ export const findTokenInfo = async (walletTokens, solPriceToday) => {
   console.log(allTokensInfo);
   return allTokensInfo;
 };
+
+export const fetchNftHistoryInfo = async () => {
+  // loop through filtered array
+  // fetch information using
+};
