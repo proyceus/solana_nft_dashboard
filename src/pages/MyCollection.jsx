@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import { Gallery } from "../components";
 import { useStateContext } from "../contexts/ContextProvider";
 import { useWallet } from "@solana/wallet-adapter-react";
