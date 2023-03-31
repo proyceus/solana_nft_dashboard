@@ -155,49 +155,56 @@ export const getTransactions = async (address, rpc) => {
   return transactions;
 };
 
-export const filterTransactions = (transactions) => {
+export const filterTransactions = (transactions, address) => {
   const magicedenAddress = "1BWutmTvYPwDtmw9abTkS4Ssr8no61spGAvW1X6NDix";
+  console.log(transactions);
   const logsArray = [];
   for (let i = 0; i < transactions.length; i++) {
-    // check to see if postTokenBalance has an entry
-    const postToken = transactions[i].tokenBalance.postTokenBalance.length > 0;
-    const preToken = transactions[i].tokenBalance.preTokenBalance.length > 0;
+    // check to see if post and pre token have entries in the array
+    const postToken =
+      transactions[i].tokenBalance.postTokenBalance.length === 1;
+    const preToken = transactions[i].tokenBalance.preTokenBalance.length === 1;
 
-    //check to see if preTokenBalances exist - if not then nothing was sent in transaction
-    if (
-      transactions[j].tokenBalance.preTokenBalance[i] !== undefined &&
-      transactions[j].tokenBalance.postTokenBalance[i] !== undefined
-    ) {
-      if (
-        transactions[j].tokenBalance.preTokenBalance[i].preTokenBalance ===
-          "1" ||
-        transactions[j].tokenBalance.postTokenBalance[i].postTokenBalance ===
-          "1"
-      ) {
-        const date = new Date(transactions[j].blockTime * 1000);
-        //create object so that frontend can build sentences based on data
-        const txObj = {
-          type:
-            transactions[j].tokenBalance.preTokenBalance[i].owner ===
-            magicedenAddress
-              ? "Bought"
-              : "Sent",
-          item: transactions[j].tokenBalance.preTokenBalance[i].mintAddress,
-          link: transactions[j].link,
-          difference:
-            transactions[j].ownerAccountBalance.difference > 0 ||
-            transactions[j].ownerAccountBalance.differece < 0
-              ? transactions[j].ownerAccountBalance.difference
-              : "n/a",
-          date: date.toUTCString(),
-        };
-        logsArray.push(txObj);
-      } else {
-        console.log("no nfts sent");
-      }
+    console.log(transactions[i].link, postToken, preToken);
+
+    // check to see if pre or post is our wallet
+    const postTokenOwner = postToken
+      ? transactions[i].tokenBalance.postTokenBalance[0].owner
+      : "na";
+    const preTokenOwner = preToken
+      ? transactions[i].tokenBalance.preTokenBalance[0].owner
+      : "na";
+
+    // using those 2 checks, we can tell what happened during transaction
+    let transactionType;
+
+    if (postToken && postTokenOwner === address) {
+      transactionType = "Bought";
+    } else if (postToken && postTokenOwner !== address) {
+      transactionType = "Sold";
+    } else if (preToken && preTokenOwner === address) {
+      transactionType = "Sold";
     } else {
-      console.log("no nfts sent");
+      // go to next loop iteration as this is not a buy or sell
+      continue;
     }
+
+    const date = new Date(transactions[i].blockTime * 1000);
+    //create object so that frontend can build sentences based on data
+    const txObj = {
+      type: transactionType,
+      item: postToken
+        ? transactions[i].tokenBalance.postTokenBalance[0].mintAddress
+        : transactions[i].tokenBalance.preTokenBalance[0].mintAddress,
+      link: transactions[i].link,
+      difference:
+        transactions[i].ownerAccountBalance.difference > 0 ||
+        transactions[i].ownerAccountBalance.difference < 0
+          ? transactions[i].ownerAccountBalance.difference
+          : "n/a",
+      date: date.toUTCString(),
+    };
+    logsArray.push(txObj);
   }
 
   console.log(logsArray);
