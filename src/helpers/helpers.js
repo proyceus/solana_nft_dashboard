@@ -93,8 +93,6 @@ export const getTransactions = async (address, rpc) => {
         }
       }
 
-      //loop over post and pre balances to find owner wallet and place in new object
-      //NEED TO MAKE THESE INTO ARRAYS TO PUSH MULTIPLE DIFFERENCES IN
       let preTokenBalance = [];
       let postTokenBalance = [];
 

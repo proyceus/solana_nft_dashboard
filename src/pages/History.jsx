@@ -28,28 +28,6 @@ const History = () => {
     //   }
   }, [walletAdapter.connected]);
 
-  // let accountBalanceByAddress;
-
-  // useEffect(() => {
-  //   if (walletHistory.length >= 1) {
-  //     //loop over history and go into object to find account balance of user wallet address to base calculations off of
-  //     for (let i = 0; i < walletHistory.length; i++) {
-  //       for (let j = 0; j < walletHistory[i].accountBalances.length; j++) {
-  //         if (walletHistory[i].accountBalances[j].address === walletAddress) {
-  //           accountBalanceByAddress = walletHistory[i];
-  //         }
-  //       }
-  //     }
-  //     accountBalanceByAddress = walletHistory.filter((account) => {
-  //       for (let i = 0; i < account.accountBalances.length; i++) {
-  //         account.accountBalances[i].address === walletAddress;
-  //       }
-  //     });
-
-  //     console.log(accountBalanceByAddress);
-  //   }
-  // }, [walletHistory]);
-
   return (
     <div>
       History
