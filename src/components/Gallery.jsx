@@ -21,7 +21,7 @@ const Gallery = () => {
     if (cardClick === false) {
       const name = e.target.alt;
       const specificNft = walletTokens.find((item) => item.name === name);
-      console.log(specificNft);
+
       const {
         image,
         link,
