@@ -70,6 +70,7 @@ const History = () => {
         onClick={async () => {
           setIsLoading(true);
           const tx = filterTransactions(walletHistory);
+
           setWalletHistoryLogs((prevState) => [...prevState, ...tx]);
           setIsLoading(false);
         }}
