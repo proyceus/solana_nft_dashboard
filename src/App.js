@@ -1,4 +1,5 @@
 import React from "react";
+import { useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { FiSettings } from "react-icons/fi";
 import { TooltipComponent } from "@syncfusion/ej2-react-popups";
@@ -10,10 +11,28 @@ import WalletContextProvider from "./components/WalletContextProvider";
 import { useWallet } from "@solana/wallet-adapter-react";
 
 const app = () => {
-  const { themeSettings, setThemeSettings, activeMenu, setActiveMenu } =
-    useStateContext();
+  const {
+    themeSettings,
+    setThemeSettings,
+    activeMenu,
+    setActiveMenu,
+    walletAddress,
+    setWalletAddress,
+  } = useStateContext();
 
-  const { connected } = useWallet();
+  const walletAdapter = useWallet();
+
+  useEffect(() => {
+    if (walletAddress === null && walletAdapter.connected) {
+      setWalletAddress(walletAdapter.publicKey.toString());
+      console.log("wallet set");
+    }
+
+    //   if (solPriceToday === 0 && connected) {
+    //     getSolPriceToday();
+    //   }
+  }, [walletAdapter.connected]);
+
   return (
     <BrowserRouter>
       <WalletContextProvider>
@@ -55,7 +74,6 @@ const app = () => {
               <Routes>
                 {/* Dashboard */}
                 <Route path="/" element={<Home />} />
-                <Route path="/home" element={<Home />} />
 
                 {/* Pages */}
 
